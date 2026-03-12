@@ -1,0 +1,183 @@
+[
+  {
+    "id": "heartstamp",
+    "company": "HeartStamp",
+    "role": "Head of Artificial Intelligence & Board Member",
+    "startDate": "2025-10",
+    "endDate": "present",
+    "location": "Remote",
+    "employmentType": "full-time",
+    "summary": "Brought in to fix a broken LoRA training pipeline at an AI-powered greeting card startup; ended up rebuilding the company's entire generative AI strategy, leading the AI engineering team, and guiding the 30-person startup to its MVP launch.",
+    "highlights": [
+      "Diagnosed and rebuilt a broken Flux LoRA training pipeline — data curation, captioning strategy, and training hyperparameters",
+      "Engineer art prompts for frontier image models including NanoBanana 2 and ChatGPT-Image-1.5, in addition to Flux and Stable Diffusion workflows",
+      "Author system prompts for HeartStamp's AI agent, integrating the latest text-based LLM models into the core product experience",
+      "Build automated prompt regression test suites and golden datasets using LangSmith (LangChain) to ensure output quality as models and workflows evolve",
+      "Benchmark models for latency/cost trade-offs and maintain full prompt versioning in Git across all image and text integrations",
+      "Architected AI agent workflows and RAG data systems connecting generative image output to the product experience",
+      "Guided a 30-person startup from broken AI infrastructure to MVP launch in under six months",
+      "Elevated to Board Member in recognition of strategic contributions beyond the AI engineering scope"
+    ],
+    "skills": ["Flux Image Models", "LoRA Training", "AI Agent Design", "RAG Architecture", "System Prompt Engineering", "Prompt Regression Testing", "LangSmith", "Model Benchmarking", "Technical Team Leadership", "AI Strategy"],
+    "heroStoryIds": ["heartstamp-lora-to-board"]
+  },
+  {
+    "id": "styleguideai",
+    "company": "StyleGuideAI",
+    "role": "Founder & AI Consultant",
+    "startDate": "2023-03",
+    "endDate": "present",
+    "location": "Remote",
+    "employmentType": "self-employed",
+    "summary": "Founded an AI consultancy and creative community focused on generative image AI, growing a 1,000+ member community of AI artists across Discord and DeviantArt while consulting on AI strategy and generative AI implementation.",
+    "highlights": [
+      "Built a 1,000+ member community of AI artists and practitioners on Discord and DeviantArt",
+      "Developed systematic approaches to AI art direction: style guides, prompt frameworks, and model evaluation techniques",
+      "Consult for startups and creators on generative AI strategy, Flux/Stable Diffusion workflows, and LoRA fine-tuning",
+      "Write and publish on AI topics including generative models, agentic AI, and AI strategy on LinkedIn, X, and the HeartStamp blog"
+    ],
+    "skills": ["Generative AI Strategy", "LoRA Fine-Tuning", "Prompt Engineering", "Community Building", "AI Consulting"],
+    "heroStoryIds": ["styleguideai-community"]
+  },
+  {
+    "id": "lifeplus-architect",
+    "company": "Lifeplus",
+    "role": "Lead Web Architect",
+    "startDate": "2010-12",
+    "endDate": "2023-11",
+    "location": "Batesville, AR",
+    "employmentType": "full-time",
+    "summary": "Led web architecture and development for Lifeplus, an international direct sales health supplement company with operations in 40+ countries, overseeing the digital properties serving a global distributor network.",
+    "highlights": [
+      "Architected and maintained web properties serving a global network of distributors across 40+ countries",
+      "Led frontend development and interactive experiences across major international markets",
+      "Transitioned the company's web stack through multiple technology generations over 13 years",
+      "Managed vendor relationships and external development teams"
+    ],
+    "skills": ["Web Architecture", "Frontend Development", "JavaScript", "TypeScript", "Enterprise Systems"],
+    "heroStoryIds": []
+  },
+  {
+    "id": "actionscript-com",
+    "company": "Satori Interactive / ActionScript.com",
+    "role": "Founder & CEO",
+    "startDate": "1996-05",
+    "endDate": "2014-12",
+    "location": "San Francisco, CA",
+    "employmentType": "self-employed",
+    "summary": "Founded Satori Interactive in 1996 after rallying the game development team from a company layoff — immediately signing publishers Activision and Viacom. Pivoted to Flash in the early 2000s, joined ActionScript.com as a staff writer, acquired the site, and rebranded as ActionScript.com in 2003, building it into the definitive Flash developer community and consulting group.",
+    "highlights": [
+      "Founded Satori Interactive in 1996, rallying the team after a layoff and immediately landing publishers Activision and Viacom — keeping everyone employed and shipping",
+      "Shipped PC game titles and mission packs (including for Redneck Rampage and Quake II) through the late 1990s",
+      "Pivoted to Flash interactive development as Flash emerged as the definitive web platform in the early 2000s",
+      "Joined ActionScript.com as a staff writer; acquired the entire site and rebranded the company as ActionScript.com in 2003",
+      "Built ActionScript.com into the largest and most recognized Flash developer community on the web",
+      "Built interactive experiences for Justin.tv (now Twitch), Bed Bath & Beyond, Frontier Airlines, and the Denver Broncos"
+    ],
+    "skills": ["ActionScript", "Flash", "Flex", "JavaScript", "Game Development", "Community Building", "Interactive Development"],
+    "heroStoryIds": ["actionscript-era"]
+  },
+  {
+    "id": "oreilly-insideria",
+    "company": "O'Reilly Media / InsideRIA",
+    "role": "Staff Writer",
+    "startDate": "2009-07",
+    "endDate": "2011-01",
+    "location": "Remote",
+    "employmentType": "contract",
+    "summary": "Contributed technical articles and analysis to InsideRIA.com, O'Reilly's publication covering Rich Internet Applications and the Flash/Flex/AIR ecosystem.",
+    "highlights": [
+      "Wrote technical deep-dives and analysis on ActionScript, Flex, and RIA development trends",
+      "Covered the Flash ecosystem at the pivotal moment when HTML5 began to challenge Flash's dominance"
+    ],
+    "skills": ["Technical Writing", "ActionScript", "Flex", "RIA Development"],
+    "heroStoryIds": []
+  },
+  {
+    "id": "zynga-farmville",
+    "company": "Zynga",
+    "role": "Lead ActionScript Architect — FarmVille",
+    "startDate": "2008-12",
+    "endDate": "2010-09",
+    "location": "San Francisco, CA",
+    "employmentType": "contract",
+    "summary": "Lead ActionScript architect for FarmVille, the social game that became one of the most-played games in history with 80+ million monthly players at peak, fundamentally defining the social gaming category.",
+    "highlights": [
+      "Designed and built the client-side ActionScript architecture for FarmVille's core gameplay systems",
+      "Architected the farm rendering system, item interaction model, and neighbor visiting mechanics",
+      "Built real-time state synchronization between the Flash client and server at social scale",
+      "FarmVille peaked at 80+ million monthly active players — the fastest-growing Facebook application at launch"
+    ],
+    "skills": ["ActionScript 3", "Flash", "Game Architecture", "Real-Time Systems", "Social Gaming"],
+    "heroStoryIds": ["farmville-flash-architect"]
+  },
+  {
+    "id": "rockyou",
+    "company": "RockYou!",
+    "role": "Lead ActionScript Developer",
+    "startDate": "2006-06",
+    "endDate": "2008-11",
+    "location": "San Francisco, CA",
+    "employmentType": "contract",
+    "summary": "First Flash developer at RockYou, where I created the RockYou Slideshow — the viral social media widget that helped RockYou grow into one of the largest social media platforms of the Web 2.0 era.",
+    "highlights": [
+      "First Flash developer at RockYou — built the initial Flash-based product from scratch",
+      "Created the RockYou Slideshow, a viral social media widget that drove massive user adoption",
+      "RockYou grew to become one of the largest social platforms of the Web 2.0 era with billions of widget installs",
+      "Helped establish the widget/viral loop model that defined social media growth in the Web 2.0 era"
+    ],
+    "skills": ["ActionScript 2", "ActionScript 3", "Flash", "Viral Product Design", "Social Media"],
+    "heroStoryIds": []
+  },
+  {
+    "id": "lifeplus-interactive",
+    "company": "Lifeplus",
+    "role": "Lead Interactive Developer",
+    "startDate": "2002-03",
+    "endDate": "2006-06",
+    "location": "Batesville, AR",
+    "employmentType": "full-time",
+    "summary": "Led interactive development for Lifeplus, building Flash-based training systems, product presentations, and interactive distributor tools for a global direct sales company.",
+    "highlights": [
+      "Designed and built Flash-based interactive training systems for an international distributor network",
+      "Created product demonstration tools and e-commerce experiences in Flash",
+      "Managed the full interactive development lifecycle from concept through deployment"
+    ],
+    "skills": ["ActionScript", "Flash", "Flex", "Interactive Development", "e-Learning"],
+    "heroStoryIds": []
+  },
+  {
+    "id": "traditional-medicinals",
+    "company": "Traditional Medicinals",
+    "role": "Marketing Director",
+    "startDate": "1998-11",
+    "endDate": "2000-02",
+    "location": "Sebastopol, CA",
+    "employmentType": "full-time",
+    "summary": "Marketing director for Traditional Medicinals, one of the leading herbal tea brands in North America, overseeing brand strategy, campaigns, and the company's early web presence.",
+    "highlights": [
+      "Oversaw brand strategy and marketing campaigns for a leading national herbal tea brand",
+      "Managed the company's early web presence during the first dot-com boom",
+      "Led cross-functional marketing initiatives spanning retail, wholesale, and direct channels"
+    ],
+    "skills": ["Brand Strategy", "Marketing", "Web Marketing", "Campaign Management"],
+    "heroStoryIds": []
+  },
+  {
+    "id": "microstar-software",
+    "company": "MicroStar Software",
+    "role": "Director of Technology & Business Development",
+    "startDate": "1995-03",
+    "endDate": "1997-08",
+    "location": "Carlsbad, CA",
+    "employmentType": "full-time",
+    "summary": "Director of Technology at MicroStar Software, where Nuke It! reached #3 in game sales at CompUSA. The company was involved in a landmark software copyright case that set important legal precedent for the games industry.",
+    "highlights": [
+      "Nuke It! reached #3 in game sales at CompUSA nationwide",
+      "Involved in a landmark software copyright case that established important legal precedent for the game industry",
+      "Managed technology development and business development at an early software startup"
+    ],
+    "skills": ["Game Development", "Business Development", "Software Development", "Technology Management"],
+    "heroStoryIds": []
+  }
+]

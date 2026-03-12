@@ -1,0 +1,63 @@
+---
+id: heartstamp-lora-to-board
+title: "From Broken Pipeline to Board Seat"
+subtitle: "How diagnosing HeartStamp's AI failures led to pivoting their entire model strategy — and a board seat."
+date: "2025-10-01"
+tags: ["Generative AI", "AI Strategy", "Prompt Engineering", "Art Direction", "Team Leadership", "Startup Advisory"]
+companyContext: "a 30-person AI-powered greeting card startup with an ambitious generative AI vision that needed both technical and strategic direction"
+outcome: "Diagnosed LoRA training failures, then identified that Flux LoRA training was the wrong long-term architecture — and redirected HeartStamp to a model-agnostic prompting system that freed them to upgrade as newer models emerge. Guided MVP launch and joined as Board Member."
+featured: true
+order: 1
+---
+
+## The Situation
+
+HeartStamp had an ambitious vision: AI-powered greeting cards with distinctive, on-demand artwork. The execution was broken.
+
+Their LoRA training pipeline — the system they were using to fine-tune Flux image models for distinctive art styles — wasn't producing usable results. Training runs would complete but outputs were flat, inconsistent, stylistically wrong. The team had been trying to fix it for weeks without success. The MVP timeline was slipping. The CTO was frustrated. The CEO was questioning whether the core AI functionality was even achievable.
+
+When I came in, I diagnosed the immediate pipeline failures quickly. But as I worked through the data and the architecture, I became more concerned — not just about the broken pipeline, but about the entire strategic direction. Fixing the LoRA training might solve today's problem and create a worse one for tomorrow.
+
+## What I Did
+
+**Phase 1: Fix the immediate pipeline.**
+
+The training data curation was poor — images hadn't been filtered for consistency, and the captioning strategy (critical for teaching a model what it's looking at) was essentially absent. The training hyperparameters hadn't been tuned for Flux specifically; they'd been borrowed from Stable Diffusion documentation without adjustment.
+
+I rebuilt the pipeline: proper dataset curation with quality filtering, a systematic captioning approach using structured art-descriptive language, Flux-specific hyperparameter tuning, and reproducible training runs with proper checkpointing and evaluation. The outputs improved substantially.
+
+But as the improved results came in, I saw more clearly the strategic problem underneath.
+
+**Phase 2: Recognize the wrong architecture.**
+
+LoRA training — even done correctly — was the wrong long-term approach for HeartStamp's product. The reason is model lock-in.
+
+Flux LoRA training bakes style knowledge into model weights that are specific to Flux. Every time a better image generation model is released (and the pace of new model releases is relentless), you face an impossible choice: stay on your old model and watch your visual quality fall behind competitors using newer models, or retrain every proprietary LoRA from scratch. For a product whose visual quality is central to its value proposition, that's a strategic trap — one that gets worse with every passing month.
+
+I proposed a different architecture: a model-agnostic prompting system.
+
+**Phase 3: The pivot.**
+
+I'd been studying art history and art movements for years — not as background interest, but systematically, writing over 300 articles on how specific visual styles work as formal systems. How Impressionist painters handle color temperature. How Art Nouveau organizes line and organic form. How contemporary digital illustration creates its characteristic flatness and color relationships.
+
+That knowledge translates directly into prompting vocabulary. The styles HeartStamp was trying to bake into LoRA weights? With the right art direction language, most of them could be achieved through prompting alone — without touching model weights at all.
+
+I showed the team how. Style by style, I developed the prompting frameworks that produced the visual results they needed. The art historical vocabulary that I'd accumulated — knowing exactly how to describe an aesthetic in terms these models respond to — became the core of HeartStamp's visual production system.
+
+The result was a model-agnostic approach: instead of being locked to Flux, HeartStamp could work with any capable image generation model and upgrade freely as new models were released. (The specific models they use are proprietary to HeartStamp — I can't name them here.) Some specific visual requirements still need purpose-built custom LoRAs, but those are targeted tools for particular cases, not the foundation of the entire system.
+
+Throughout this strategic pivot, I led the AI engineering team directly — building the evaluation frameworks, establishing the workflow, and raising the team's capability to maintain and extend the system independently.
+
+## The Result
+
+HeartStamp launched its MVP. A 30-person startup went from broken LoRA pipeline → working pipeline → strategic pivot away from LoRA dependency → model-agnostic production system → shipped product — in under six months.
+
+The CEO recognized that my contribution had moved well beyond fixing a technical problem. The strategic insight — identifying that the original approach was wrong and knowing how to replace it — was as valuable as the implementation work. I was invited to join the board.
+
+## What This Proves
+
+Three things for a hiring manager. First: I diagnose AI implementation failures at both the tactical and strategic layer simultaneously. I can see "the training data is wrong" and "training data is the wrong approach" in the same pass.
+
+Second: art history knowledge is a legitimate technical asset, not decoration. The ability to translate a visual style into model-legible language — using decades of accumulated art vocabulary — is a real skill that most AI engineers don't have. At HeartStamp, it was the skill that unlocked the product.
+
+Third: I know when to redirect rather than optimize. The team was on a path that would have worked — for a while — and then created a long-term liability. Recognizing that, changing direction, and still shipping the product required strategic conviction and enough credibility to be believed. Both worked out.
