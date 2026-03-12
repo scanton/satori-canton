@@ -1,0 +1,73 @@
+---
+title: "The Spec Is the System"
+subtitle: "Why vague AI instructions are a liability — and the framework I built to fix that."
+date: "2025-11-01"
+tags: ["AI Strategy", "Specification Engineering", "Prompt Engineering", "Enterprise AI", "Agentic Systems", "Frameworks"]
+outcome: "Developed the AI Fluency Ladder and Five Pillars of Specification Engineering framework, published on Medium, and shipped an open-source Claude skill (specify) that implements the full workflow as a reusable, step-by-step spec-writing conversation."
+---
+
+## The Failure Mode Nobody Talks About
+
+There's a specific way AI agent deployments fail that doesn't look like failure at first. The agent runs. It produces output that looks like work. It's thorough, confident, well-formatted. And it's completely wrong — not obviously wrong, but wrong in the subtle way where it answered a different question than the one you meant to ask.
+
+I kept running into this. And every time I traced the root cause, it wasn't the model.
+
+It was me.
+
+I was giving agents the same kind of instructions I'd give a smart colleague who already shared my context — someone who knew the company, the project history, the unstated preferences. Agents don't have any of that. Every task is a blank slate. When I handed them a vague brief, they filled in the gaps the only way they could: by guessing.
+
+That insight led me to a harder realization. Vague instructions aren't a style choice. They're a gap in your own understanding of what you actually want. The discipline of writing a real specification forces you to figure out what you want *before* you ask someone else to do it.
+
+## The AI Fluency Ladder
+
+Before building a solution, I needed a mental model for the problem. I mapped out what I call the **AI Fluency Ladder** — four levels that describe not just how you use AI, but what your relationship to work becomes at each level.
+
+**Basic Prompting** is consumer-level use. You ask, AI answers. Most people start and stay here. Prompting tells AI what you want to know.
+
+**Prompt Engineering** is where you stop asking and start designing. Structured prompts, meta-prompts, reusable templates. You're building instruments, not asking questions. Prompt Engineering tells AI what to do.
+
+**Context Engineering** is where AI connects to live data, files, and systems. Work happens in place, not copy-pasted from a chat window. Context Engineering tells AI what to know.
+
+**Intent Engineering** is where you stop managing tasks and start managing outcomes. You define what you want; orchestrated agents figure out the how. Intent Engineering tells AI what to want.
+
+**Specification Engineering** is the north star for all the other layers. At this level, you think about the entire corpus of organizational documentation — policies, processes, standards, tribal knowledge — as a specification for how business gets done. Not individual prompts. The complete structure of how work is defined, verified, and handed off.
+
+Here's the thing that took me a while to fully absorb: real-time oversight of AI models doesn't work for long-running agents. You can't babysit something running at machine speed across a multi-hour workflow. The oversight has to be embedded upfront, in the specification itself. Clear instructions, guardrails, acceptance criteria, escalation logic — all decided before the agent starts.
+
+**The spec is the supervision.**
+
+## The Five Pillars
+
+When I formalized this into a framework, five categories kept emerging as the ones that made or broke an agent deployment.
+
+**Pillar 1: Self-Contained Problem Statement.** State the problem with enough context that the task is plausibly solvable without the agent needing to gather more information. A useful test: if you handed this problem statement to someone who had never heard of your company, could they understand and attempt the task? If not, there's information missing that you're assuming is obvious.
+
+**Pillar 2: Clear Acceptance Criteria.** Write three sentences that an independent observer could follow to verify the output, without asking a single clarifying question. This sounds simple and almost never is. Most first-pass acceptance criteria are just restatements of the goal. Good acceptance criteria name specific, observable properties of the output — checkable, not interpretable.
+
+**Pillar 3: Constraint Architecture.** Define the operating envelope across four questions: What must the agent do? What can it never do? What should it prefer when multiple valid approaches exist? What should it escalate rather than decide autonomously? That escalation dimension is critical. An agent that makes the wrong call and keeps going is worse than one that stops and flags the situation.
+
+**Pillar 4: Decomposition.** Large tasks need to be broken into components that can be executed independently, tested independently, and — the criterion people forget — integrated predictably. Two components that each work perfectly in isolation can still fail when combined if the interface between them was assumed rather than designed.
+
+**Pillar 5: Evaluation Design.** Define how you'll know the output is good, not just this time, but systematically. Build test cases with known good outputs. Run them after model updates. This is what catches regressions before they become production problems.
+
+## Building the Tool
+
+Once the framework was solid, I built it into a Claude skill called `specify` — a reusable structured workflow that walks through each pillar as a guided conversation, drafts the spec content, and reviews it with you before moving on. The output is a complete `.md` specification file that any executor — agent or human — can use as a standalone brief.
+
+What I found while building it: the skill itself is a demonstration of the principles. The `specify` SKILL.md is a complete specification for how specification conversations should go. Every step in the workflow is an acceptance criterion applied to the spec-writing process itself. The thing is its own proof of concept.
+
+The full implementation is open source: [github.com/scanton/specify](https://github.com/scanton/specify)
+
+I wrote up the complete thinking behind the framework on my Medium blog: [The Spec Is the System](https://medium.com/@satoricanton/the-spec-is-the-system-2492d38a4b75)
+
+## What This Changes
+
+The shift that Specification Engineering produces is harder to describe than the mechanics, but it's the part that actually matters.
+
+You stop thinking about AI as a smart assistant you give instructions to, and start thinking about it as a workforce you define work for.
+
+That's a different relationship to your own thinking. You can't outsource ambiguity. The model will resolve it one way or another, and if you haven't resolved it first, you don't control the resolution. The spec is how you take that control back.
+
+For enterprises building seriously with agents — whether it's internal tooling, customer-facing products, or autonomous workflows — the quality of your specifications is the ceiling on the quality of your outputs. Not the model. Not the infrastructure.
+
+The spec.

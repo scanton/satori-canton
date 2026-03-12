@@ -1,0 +1,73 @@
+[
+  {
+    "category": "Generative Image AI",
+    "level": "expert",
+    "skills": [
+      "Flux Image Models",
+      "LoRA Training & Fine-Tuning",
+      "Stable Diffusion Architecture",
+      "ComfyUI Workflow Design",
+      "AI Art Direction & Evaluation",
+      "Image Dataset Curation & Captioning"
+    ]
+  },
+  {
+    "category": "AI Strategy & Architecture",
+    "level": "expert",
+    "skills": [
+      "AI Agent Design & Orchestration",
+      "RAG Architecture & Implementation",
+      "LLM Integration & API Design",
+      "Prompt Engineering",
+      "Meta-Prompting",
+      "AI Product Strategy",
+      "AI Roadmapping for Startups"
+    ]
+  },
+  {
+    "category": "AI Platforms & APIs",
+    "level": "expert",
+    "skills": [
+      "Claude / Anthropic API",
+      "OpenAI GPT-4 / o-series",
+      "Vercel AI SDK",
+      "OpenRouter",
+      "Hugging Face",
+      "Replicate API"
+    ]
+  },
+  {
+    "category": "ML Research & Python",
+    "level": "proficient",
+    "skills": [
+      "Python",
+      "PyTorch",
+      "TensorFlow",
+      "Neural Network Design",
+      "Deep Learning Research",
+      "Brain.js"
+    ]
+  },
+  {
+    "category": "Frontend Development",
+    "level": "proficient",
+    "skills": [
+      "TypeScript / JavaScript",
+      "React / Next.js",
+      "Node.js / REST APIs",
+      "Tailwind CSS",
+      "ActionScript 2 & 3 (legacy expertise)"
+    ]
+  },
+  {
+    "category": "Leadership & Community",
+    "level": "expert",
+    "skills": [
+      "Technical Team Leadership",
+      "AI Community Building",
+      "Fractional Executive Advisory",
+      "Technical Content & Writing",
+      "Startup Advisory"
+    ]
+  }
+]

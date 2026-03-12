@@ -1,0 +1,59 @@
+{
+  "stories": [
+    {
+      "id": "heartstamp-lora-to-board",
+      "title": "From Broken Pipeline to Board Seat",
+      "subtitle": "How diagnosing HeartStamp's AI failures led to pivoting their entire model strategy — and a board seat.",
+      "date": "2025-10-01",
+      "tags": ["Generative AI", "AI Strategy", "Prompt Engineering", "Art Direction", "Team Leadership", "Startup Advisory"],
+      "companyContext": "a 30-person AI-powered greeting card startup with an ambitious generative AI vision that needed both technical and strategic direction",
+      "outcome": "Diagnosed LoRA training failures, pivoted the company to a model-agnostic prompting system using art historical vocabulary, guided MVP launch, and joined as Board Member.",
+      "featured": true,
+      "order": 1
+    },
+    {
+      "id": "farmville-flash-architect",
+      "title": "Architecting FarmVille",
+      "subtitle": "Lead ActionScript architect for the game that defined social gaming and reached 80 million monthly players.",
+      "date": "2009-06-01",
+      "tags": ["Flash Architecture", "ActionScript", "Social Gaming", "Scale", "Zynga"],
+      "companyContext": "Zynga, building what would become the most viral social game in history on the Facebook platform",
+      "outcome": "Designed and built the client-side ActionScript architecture for FarmVille, which reached 80+ million monthly players and defined the social gaming category.",
+      "featured": true,
+      "order": 2
+    },
+    {
+      "id": "actionscript-era",
+      "title": "Rally the Team, Own the Wave",
+      "subtitle": "How a company layoff in 1996 led to founding a game studio, publishing with Activision, and eventually owning the definitive Flash developer community.",
+      "date": "1996-05-01",
+      "tags": ["Game Development", "Community Building", "Flash", "ActionScript", "Early Adopter", "Founder"],
+      "companyContext": "a team of game developers rallied after a company layoff, evolved into a studio that rode two technology waves — PC gaming and then interactive web",
+      "outcome": "Founded Satori Interactive in 1996, shipped games with Activision and Viacom, pivoted to Flash, acquired ActionScript.com, rebranded in 2003, and ran the definitive Flash developer community for nearly two decades.",
+      "featured": true,
+      "order": 3
+    },
+    {
+      "id": "styleguideai-community",
+      "title": "Building the AI Art Community",
+      "subtitle": "A decade of neural network research, 300+ articles on art movements, and one well-timed community launch.",
+      "date": "2023-03-01",
+      "tags": ["Generative AI", "Community Building", "AI Art", "Deep Learning", "Flux", "Stable Diffusion", "Consulting"],
+      "companyContext": "the generative AI art explosion of 2023 — and the decade of ML research and art historical study that preceded it",
+      "outcome": "Founded StyleGuideAI, grew a 1,000+ member AI artist community, developed systematic approaches to AI art direction, and built the reputation that led directly to the HeartStamp engagement.",
+      "featured": true,
+      "order": 4
+    },
+    {
+      "id": "specification-engineering",
+      "title": "The Spec Is the System",
+      "subtitle": "Why vague AI instructions are a liability — and the framework I built to fix that.",
+      "date": "2025-11-01",
+      "tags": ["AI Strategy", "Specification Engineering", "Prompt Engineering", "Enterprise AI", "Agentic Systems", "Frameworks"],
+      "companyContext": "enterprise AI deployments where long-running agents were producing technically impressive but fundamentally wrong outputs",
+      "outcome": "Developed the AI Fluency Ladder and Five Pillars of Specification Engineering framework, published as a Medium article, and shipped an open-source Claude skill (specify) that implements the full workflow.",
+      "featured": true,
+      "order": 5
+    }
+  ]
+}

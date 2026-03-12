@@ -1,0 +1,18 @@
+[
+  {
+    "id": "edu-itt-bs",
+    "institution": "ITT Technical Institute",
+    "degree": "Bachelor of Science",
+    "field": "Computer Science & Information Technology",
+    "startYear": 1990,
+    "endYear": 1992
+  },
+  {
+    "id": "edu-itt-aas",
+    "institution": "ITT Technical Institute",
+    "degree": "Associate of Applied Science",
+    "field": "Electronic Engineering",
+    "startYear": 1988,
+    "endYear": 1990
+  }
+]
