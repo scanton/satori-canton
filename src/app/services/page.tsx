@@ -5,7 +5,7 @@ import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
-import { ArrowRight, Mail, MessageSquare } from "lucide-react";
+import { Mail, MessageSquare } from "lucide-react";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
@@ -63,7 +63,7 @@ export default async function ServicesPage() {
 
       {/* Service cards */}
       <div className="space-y-10">
-        {services.map((service, i) => (
+        {services.map((service) => (
           <div
             key={service.id}
             className="group rounded-xl border border-border/60 bg-card/30 p-7 hover:border-border transition-colors"
