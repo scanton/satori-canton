@@ -26,6 +26,16 @@ export async function Footer() {
               LinkedIn
             </a>
           )}
+          {profile.contact.medium && (
+            <a
+              href={profile.contact.medium}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="hover:text-foreground transition-colors"
+            >
+              Medium
+            </a>
+          )}
           {profile.contact.github && (
             <a
               href={profile.contact.github}
@@ -40,7 +50,7 @@ export async function Footer() {
             href={`mailto:${profile.contact.email}`}
             className="hover:text-foreground transition-colors"
           >
-            Contact
+            Email
           </a>
           <Link
             href="/job-fit"

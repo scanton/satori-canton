@@ -1,0 +1,54 @@
+---
+title: "When the Tool Is Its Own Proof"
+subtitle: "Building an open-source Claude skill that implements the Specification Engineering framework — and discovering the SKILL.md is itself a spec."
+date: "2025-12-01"
+tags: ["Specification Engineering", "AI Agent Design", "Open Source", "Claude Skills", "Prompt Engineering", "Frameworks"]
+outcome: "Designed and shipped 'specify' — an open-source Claude skill that walks any agent task through the Five Pillars of Specification Engineering — and published it as a reusable workflow anyone can deploy."
+---
+
+## From Framework to Tool
+
+Developing the Specification Engineering framework answered the *why*: vague AI instructions aren't a style problem, they're a thinking problem, and the discipline of writing a real spec forces you to resolve your own ambiguity before asking an agent to work.
+
+But a framework sitting in a Medium article doesn't change how anyone actually builds. The question was how to encode it as something repeatable — a workflow someone could run every time they needed to spec out an agent task, without having to remember the Five Pillars from scratch.
+
+The answer was a Claude skill.
+
+## What a Skill Is
+
+A Claude skill is a reusable, structured workflow stored as a `SKILL.md` file. When invoked, it gives Claude a specific set of instructions, conversation patterns, and output formats to follow — turning a free-form AI session into a guided, predictable process.
+
+The `specify` skill walks through the Five Pillars of Specification Engineering as a structured conversation. It gathers the information needed for each pillar, drafts the spec content for that section, reviews it with you before moving on, and produces a complete `.md` specification file at the end — ready for any executor, human or agent, to use as a standalone brief.
+
+## The Recursive Proof
+
+Here's what I didn't fully anticipate until I was building it: the `specify` SKILL.md is itself a complete specification for how specification conversations should go.
+
+Every step in the workflow is an acceptance criterion applied to the spec-writing process. The constraint architecture defines what the skill must do, what it can never do, and when it should escalate for clarification. The decomposition breaks the five-pillar conversation into independently executable steps. The evaluation design describes what a complete, usable specification looks like.
+
+The thing is its own proof of concept.
+
+This wasn't a clever design decision — it emerged from taking the framework seriously during implementation. When you build something using its own methodology, you find out immediately whether the methodology actually works. In this case, it did.
+
+## Open Source by Design
+
+The `specify` skill is fully open source on GitHub: [github.com/scanton/specify](https://github.com/scanton/specify)
+
+The decision to open source it was straightforward. The value of Specification Engineering isn't in the tool — it's in the discipline of thinking clearly before delegating. Publishing the skill openly puts the workflow in front of anyone building with agents, and makes the framework concrete rather than theoretical.
+
+If someone forks it, adapts it, or improves on it, that's the point.
+
+## What This Demonstrates
+
+The Specification Engineering framework is a consulting offering. The `specify` skill is evidence that the framework is real, not aspirational.
+
+Any consultant can describe a methodology. Fewer can show you a working implementation of it. The `specify` skill is the difference between saying "you should write better specs" and shipping a tool that walks you through exactly how to do it.
+
+That gap — between describing an approach and building a tool that embodies it — is where most AI strategy work stays. Crossing it is the part I find interesting.
+
+---
+
+The full write-up on the framework is on Medium: [The Spec Is the System](https://medium.com/@satoricanton/the-spec-is-the-system-2492d38a4b75)
+
+The skill is available to clone and use: [github.com/scanton/specify](https://github.com/scanton/specify)
+---

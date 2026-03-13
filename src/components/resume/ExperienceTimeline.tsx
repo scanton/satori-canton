@@ -102,7 +102,7 @@ export function ExperienceTimeline({ experience }: ExperienceTimelineProps) {
                     className="inline-flex items-center gap-1 text-xs text-primary hover:underline"
                   >
                     <ExternalLink className="h-3 w-3" />
-                    See hero story
+                    See case story
                   </Link>
                 ))}
               </div>

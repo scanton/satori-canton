@@ -8,7 +8,7 @@ export function buildJobFitSystemPrompt(groundTruth: string): string {
 CRITICAL INSTRUCTIONS:
 1. You MUST be honest about gaps. Do not spin weaknesses as strengths.
 2. Every strength claim MUST reference specific evidence from Satori's background.
-3. When citing hero stories as evidence, use their exact IDs from the provided list.
+3. When citing case stories as evidence, use their exact IDs from the provided list.
 4. The score should be calibrated: 70+ means genuinely strong fit, not "possible." Score below 40 if the role is clearly outside Satori's wheelhouse.
 5. Your recommendation should be frank — as if you were a trusted advisor to the hiring manager.
 6. Do NOT fabricate experience, companies, metrics, or outcomes not in the provided background.

@@ -1,0 +1,92 @@
+[
+  {
+    "id": "fractional-head-of-ai",
+    "title": "Fractional Head of AI",
+    "tagline": "Senior AI leadership without the full-time commitment.",
+    "description": "Embedded strategic and technical AI leadership for startups and growth-stage companies that need direction, decision-making, and execution — but aren't ready to hire a full-time Head of AI. I work across strategy, architecture, team building, and board-level communication.",
+    "deliverables": [
+      "AI roadmap and model strategy",
+      "Team structure and hiring guidance",
+      "Hands-on technical oversight",
+      "Board and investor communication on AI"
+    ],
+    "idealFor": "Seed to Series B companies building AI-forward products",
+    "engagementType": "fractional",
+    "order": 1
+  },
+  {
+    "id": "generative-ai-strategy",
+    "title": "Generative AI Strategy",
+    "tagline": "Model selection, workflow architecture, and evaluation pipelines that actually work in production.",
+    "description": "End-to-end strategy for generative image and text AI systems: model selection, prompt engineering, LoRA fine-tuning, evaluation design, and production deployment. Covers both frontier models (ChatGPT-Image, NanoBanana 2) and fine-tuned workflows (Flux, Stable Diffusion).",
+    "deliverables": [
+      "Model selection and benchmarking",
+      "Prompt systems and style guides",
+      "LoRA training strategy and data curation",
+      "Evaluation pipelines and golden datasets"
+    ],
+    "idealFor": "Companies building generative AI into their core product",
+    "engagementType": "project",
+    "order": 2
+  },
+  {
+    "id": "ai-agent-architecture",
+    "title": "AI Agent Architecture",
+    "tagline": "Agentic systems designed to run reliably — not just impressively.",
+    "description": "Design and build production-grade AI agent workflows: system prompt engineering, RAG pipelines, LLM API integration, LangSmith evaluation, prompt versioning, and model benchmarking for latency/cost trade-offs. The goal is agents that work consistently, not just ones that demo well.",
+    "deliverables": [
+      "System prompt design and versioning",
+      "RAG architecture and data pipeline",
+      "LangSmith evaluation and regression testing",
+      "Model benchmarking and cost optimization"
+    ],
+    "idealFor": "Teams building autonomous workflows or AI-powered product features",
+    "engagementType": "project",
+    "order": 3
+  },
+  {
+    "id": "ai-art-direction",
+    "title": "AI Art Direction & Style Consulting",
+    "tagline": "Where art history meets generative AI — systematic style and model fine-tuning.",
+    "description": "Consulting for creators, studios, and product teams who need a systematic approach to AI visual output. I bring a deep background in art history and art movements — 300+ published articles on achieving specific styles with generative AI — combined with hands-on expertise in prompt engineering, LoRA fine-tuning, and model selection. The result is a repeatable system for consistent, directed visual output rather than lucky generation.",
+    "deliverables": [
+      "Style guide and prompt vocabulary for your aesthetic",
+      "Model and workflow selection for your use case",
+      "LoRA fine-tuning strategy and training oversight",
+      "Art direction frameworks for creative teams"
+    ],
+    "idealFor": "Creative studios, AI art platforms, and product teams with strong visual identity requirements",
+    "engagementType": "project",
+    "order": 4
+  },
+  {
+    "id": "specification-engineering",
+    "title": "Specification Engineering Workshop",
+    "tagline": "Stop giving your AI agents vague instructions. Build specs that actually run.",
+    "description": "A structured working session based on the Specification Engineering framework — the Five Pillars methodology for turning rough requirements into production-grade agent specifications. Teams leave with a complete specification for their highest-priority AI workflow and the tools to write the next ones independently.",
+    "deliverables": [
+      "Specification Engineering framework walkthrough",
+      "Live spec-writing session for your priority workflow",
+      "Complete .md specification file ready for agent execution",
+      "Team training on the Five Pillars methodology"
+    ],
+    "idealFor": "Engineering and product teams deploying AI agents who keep getting wrong outputs",
+    "engagementType": "workshop",
+    "order": 5
+  },
+  {
+    "id": "ai-audit-advisory",
+    "title": "AI Audit & Advisory",
+    "tagline": "Your AI isn't working as expected. Let's find out why.",
+    "description": "A focused diagnostic engagement for companies whose AI implementations aren't delivering. I audit the full stack — model selection, prompt design, evaluation approach, data quality, and architecture — identify root causes, and deliver a clear remediation plan. No vague recommendations; specific fixes with rationale.",
+    "deliverables": [
+      "Full-stack AI audit report",
+      "Root cause analysis",
+      "Prioritized remediation roadmap",
+      "Optional: hands-on remediation engagement"
+    ],
+    "idealFor": "Companies with underperforming AI features or failed agent deployments",
+    "engagementType": "project",
+    "order": 6
+  }
+]

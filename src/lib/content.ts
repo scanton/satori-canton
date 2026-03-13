@@ -125,7 +125,7 @@ Skills demonstrated: ${exp.skills.join(", ")}${exp.heroStoryIds?.length ? `\nSup
 ### Skills
 ${skills.map((cat) => `${cat.category} (${cat.level}): ${cat.skills.join(", ")}`).join("\n")}
 
-### Hero Stories (Verified Case Studies)
+### Case Stories (Verified)
 ${stories
   .map(
     (s) => `

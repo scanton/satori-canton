@@ -103,7 +103,7 @@ export default async function ResumePage() {
         </h3>
         <p className="text-sm text-muted-foreground mb-4">
           Paste your job description and get an honest score with supporting
-          evidence from these hero stories.
+          evidence from these case stories.
         </p>
         <Link href="/job-fit">
           <Button className="gap-2">
