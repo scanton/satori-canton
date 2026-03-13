@@ -7,8 +7,10 @@ export interface Profile {
   bio: string;
   contact: {
     email: string;
+    phone?: string;
     linkedin: string;
     github?: string;
+    medium?: string;
     location: string;
   };
   summary: string;

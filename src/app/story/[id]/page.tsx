@@ -40,7 +40,7 @@ export default async function StoryPage({ params }: StoryPageProps) {
         className="inline-flex items-center gap-1.5 text-sm text-muted-foreground hover:text-foreground transition-colors mb-8 group"
       >
         <ArrowLeft className="h-3.5 w-3.5 transition-transform group-hover:-translate-x-0.5" />
-        All Stories
+        All Case Stories
       </Link>
 
       {/* Tags */}

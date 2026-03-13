@@ -45,6 +45,17 @@
       "order": 4
     },
     {
+      "id": "ai-art-direction",
+      "title": "300 Articles, One Obsession",
+      "subtitle": "How writing deeply about every major art movement for a decade built a systematic vocabulary for AI image generation.",
+      "date": "2023-01-01",
+      "tags": ["AI Art", "Art History", "Generative AI", "Prompt Engineering", "StyleGuideAI", "Deep Learning"],
+      "companyContext": "a decade of self-directed art historical research culminating in 300+ published articles on art movements and AI generation techniques",
+      "outcome": "Built a systematic art-historical prompt vocabulary, published 300+ articles on Medium, and established the domain expertise that powers StyleGuideAI's consulting practice.",
+      "featured": true,
+      "order": 5
+    },
+    {
       "id": "specification-engineering",
       "title": "The Spec Is the System",
       "subtitle": "Why vague AI instructions are a liability — and the framework I built to fix that.",
@@ -53,7 +64,18 @@
       "companyContext": "enterprise AI deployments where long-running agents were producing technically impressive but fundamentally wrong outputs",
       "outcome": "Developed the AI Fluency Ladder and Five Pillars of Specification Engineering framework, published as a Medium article, and shipped an open-source Claude skill (specify) that implements the full workflow.",
       "featured": true,
-      "order": 5
+      "order": 6
+    },
+    {
+      "id": "specify-skill",
+      "title": "When the Tool Is Its Own Proof",
+      "subtitle": "Building an open-source Claude skill that implements the Specification Engineering framework — and discovering the SKILL.md is itself a spec.",
+      "date": "2025-12-01",
+      "tags": ["Specification Engineering", "AI Agent Design", "Open Source", "Claude Skills", "Prompt Engineering", "Frameworks"],
+      "companyContext": "a self-directed open source project to encode the Specification Engineering framework as a reusable, deployable Claude skill",
+      "outcome": "Designed and shipped 'specify' — an open-source Claude skill that walks any agent task through the Five Pillars of Specification Engineering — and published it as a reusable workflow anyone can deploy.",
+      "featured": true,
+      "order": 7
     }
   ]
 }

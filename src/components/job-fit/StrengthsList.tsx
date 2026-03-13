@@ -59,7 +59,7 @@ export function StrengthsList({ strengths }: StrengthsListProps) {
                           className="inline-flex items-center gap-1 text-xs text-strength font-medium hover:underline"
                         >
                           <ExternalLink className="h-3 w-3" />
-                          See hero story
+                          See case story
                         </Link>
                       ))}
                     </div>

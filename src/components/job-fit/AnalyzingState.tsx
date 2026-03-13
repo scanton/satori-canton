@@ -9,7 +9,7 @@ const STATUS_MESSAGES = [
   "Mapping requirements to background...",
   "Identifying key strengths...",
   "Being honest about gaps...",
-  "Finding relevant hero stories...",
+  "Finding relevant case stories...",
   "Crafting honest recommendation...",
 ];
 
