@@ -16,6 +16,7 @@ const employmentTypeLabel: Record<ExperienceItem["employmentType"], string> = {
   contract: "Contract",
   consulting: "Consulting",
   fractional: "Fractional",
+  "self-employed": "Self-employed",
 };
 
 export function ExperienceTimeline({ experience }: ExperienceTimelineProps) {

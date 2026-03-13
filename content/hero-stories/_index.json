@@ -76,6 +76,17 @@
       "outcome": "Designed and shipped 'specify' — an open-source Claude skill that walks any agent task through the Five Pillars of Specification Engineering — and published it as a reusable workflow anyone can deploy.",
       "featured": true,
       "order": 7
+    },
+    {
+      "id": "satori-gallery",
+      "title": "Sound You Can See",
+      "subtitle": "Building a 10,000 sq/ft art and maker space where the speakers are original paintings, the sound is shaped by DSP, and audio becomes animation.",
+      "date": "2018-01-01",
+      "tags": ["Art Installation", "Electronic Engineering", "DML Audio", "Maker Space", "Physical Art", "Oscilloscope Art", "Leather Craft"],
+      "companyContext": "a personal creative space — 10,000 sq/ft of art studio, event venue, and maker space — founded in Batesville, AR in 2018",
+      "outcome": "Opened Satori Gallery featuring 20 original musician portrait DML flat-panel speakers driven by a 5-channel DSP audio system, a full wood/metal/leather maker space, and recurring Oscilloscope Art events where audio channels drive real-time visual animations.",
+      "featured": true,
+      "order": 8
     }
   ]
 }
