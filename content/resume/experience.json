@@ -27,8 +27,8 @@
     "role": "Founder & AI Consultant",
     "startDate": "2023-03",
     "endDate": "present",
-    "location": "Remote",
-    "employmentType": "self-employed",
+    "location": "Batesville, AR",
+    "employmentType": "consulting",
     "summary": "Founded an AI consultancy and creative community focused on generative image AI, growing a 1,000+ member community of AI artists across Discord and DeviantArt while consulting on AI strategy and generative AI implementation.",
     "highlights": [
       "Built a 1,000+ member community of AI artists and practitioners on Discord and DeviantArt",
@@ -38,6 +38,27 @@
     ],
     "skills": ["Generative AI Strategy", "LoRA Fine-Tuning", "Prompt Engineering", "Community Building", "AI Consulting"],
     "heroStoryIds": ["styleguideai-community"]
+  },
+  {
+    "id": "satori-gallery",
+    "company": "Satori Gallery",
+    "role": "Founder & Creative Director",
+    "startDate": "2018-01",
+    "endDate": "present",
+    "location": "Batesville, AR",
+    "employmentType": "self-employed",
+    "summary": "Side project and creative space: a 10,000 sq/ft art gallery, event venue, and maker space in Batesville, AR. Built 20 original large-format musician portrait paintings (Elvis, Prince, Michael Jackson, and others) that double as DML flat-panel loudspeakers, driven by a 5-channel DSP audio system. Full maker space for wood, metal, leather, and plastic work. Hosts Oscilloscope Art/Music events where audio channels drive real-time visual animations.",
+    "highlights": [
+      "Designed and built 20 DML (Distributed Mode Loudspeaker) flat-panel speakers from 4-foot foam panels with original canvas paintings of music legends — Elvis, Michael Jackson, Prince, Madonna, 2Pac, Biggie",
+      "Engineered a 5-channel audio system with DSP processing for perfectly balanced stereo coverage across the 3,000 sq/ft event space",
+      "Applied AAS Electronic Engineering background (ITT Technical Institute, 1990) to speaker design, signal chain, and crossover architecture",
+      "Hosts Oscilloscope Art/Music events: audio left/right channels drive X/Y oscilloscope inputs, creating real-time Lissajous pattern animations synchronized to live music",
+      "Full maker space for wood sculpture, metal fabrication, leather goods (hand saddle-stitched bags, backpacks, and luggage from raw leather), and plastics",
+      "Produces and sells museum-quality art prints of the musician portrait series; online presence at facebook.com/BatesvilleArt",
+      "Runs private exhibitions and events from the space"
+    ],
+    "skills": ["DML Speaker Design", "DSP Audio Engineering", "Electronic Engineering", "Leather Craft", "Wood Sculpture", "Metal Fabrication", "Art Installation", "Oscilloscope Art"],
+    "heroStoryIds": ["satori-gallery"]
   },
   {
     "id": "lifeplus-architect",
@@ -64,7 +85,7 @@
     "startDate": "1996-05",
     "endDate": "2014-12",
     "location": "San Francisco, CA",
-    "employmentType": "self-employed",
+    "employmentType": "full-time",
     "summary": "Founded Satori Interactive in 1996 after rallying the game development team from a company layoff — immediately signing publishers Activision and Viacom. Pivoted to Flash in the early 2000s, joined ActionScript.com as a staff writer, acquired the site, and rebranded as ActionScript.com in 2003, building it into the definitive Flash developer community and consulting group.",
     "highlights": [
       "Founded Satori Interactive in 1996, rallying the team after a layoff and immediately landing publishers Activision and Viacom — keeping everyone employed and shipping",

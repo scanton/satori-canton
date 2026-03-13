@@ -25,7 +25,7 @@ export interface ExperienceItem {
   startDate: string; // "YYYY-MM"
   endDate: string | "present";
   location: string;
-  employmentType: "full-time" | "contract" | "consulting" | "fractional";
+  employmentType: "full-time" | "contract" | "consulting" | "fractional" | "self-employed";
   summary: string;
   highlights: string[];
   skills: string[];
