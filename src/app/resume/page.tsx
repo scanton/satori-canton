@@ -39,7 +39,7 @@ export default async function ResumePage() {
               alt={profile.name}
               width={72}
               height={72}
-              className="rounded-full ring-1 ring-border/60 object-cover shrink-0"
+              className="rounded-full ring-[5px] ring-border object-cover shrink-0"
               priority
             />
           )}
