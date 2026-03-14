@@ -2,6 +2,7 @@ import { generateText } from "ai";
 import { getAIModel } from "@/lib/ai-client";
 import { buildProfileContext } from "@/lib/content";
 import { buildJobFitSystemPrompt } from "@/lib/prompts";
+import { sendJDNotification } from "@/lib/email";
 import { extractJSON } from "@/lib/utils";
 import type { JobFitResult } from "@/lib/types";
 
@@ -30,6 +31,9 @@ export async function POST(request: Request) {
         { status: 400 }
       );
     }
+
+    // Fire-and-forget — never delays the analysis response
+    sendJDNotification(jobDescription);
 
     const groundTruth = await buildProfileContext();
     const systemPrompt = buildJobFitSystemPrompt(groundTruth);

@@ -9,6 +9,8 @@ import { Send, Loader2, User, Bot } from "lucide-react";
 import { cn } from "@/lib/utils";
 import type { JobFitResult, LeadInfo } from "@/lib/types";
 
+const LOG_DELAY_MS = 30 * 60 * 1000; // 30 minutes
+
 interface InterviewChatProps {
   jobDescription: string;
   jobFitResult: JobFitResult;
@@ -21,7 +23,9 @@ export function InterviewChat({
   leadInfo,
 }: InterviewChatProps) {
   const isFirstMessage = useRef(true);
+  const logSent = useRef(false);
   const scrollRef = useRef<HTMLDivElement>(null);
+  const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   const { messages, input, handleInputChange, handleSubmit, isLoading, error } =
     useChat({
@@ -36,6 +40,62 @@ export function InterviewChat({
         isFirstMessage.current = false;
       },
     });
+
+  // Keep a ref to messages so timer/cleanup closures always see current value
+  const messagesRef = useRef(messages);
+  useEffect(() => {
+    messagesRef.current = messages;
+  }, [messages]);
+
+  // Start 30-min auto-send timer on first message
+  useEffect(() => {
+    if (messages.length === 1 && !timerRef.current && !logSent.current) {
+      timerRef.current = setTimeout(() => {
+        postLog(messagesRef.current);
+      }, LOG_DELAY_MS);
+    }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [messages.length]);
+
+  // On unmount: cancel timer, send log via sendBeacon (survives page close)
+  useEffect(() => {
+    return () => {
+      if (timerRef.current) clearTimeout(timerRef.current);
+      if (!logSent.current && messagesRef.current.length > 0) {
+        logSent.current = true;
+        const body = JSON.stringify({
+          messages: messagesRef.current,
+          leadInfo,
+          jobFitResult,
+          jobDescription,
+        });
+        if (typeof navigator !== "undefined" && navigator.sendBeacon) {
+          navigator.sendBeacon(
+            "/api/chat/log",
+            new Blob([body], { type: "application/json" })
+          );
+        } else {
+          fetch("/api/chat/log", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body,
+            keepalive: true,
+          }).catch(() => {});
+        }
+      }
+    };
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  function postLog(msgs: typeof messages) {
+    if (logSent.current || msgs.length === 0) return;
+    logSent.current = true;
+    fetch("/api/chat/log", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ messages: msgs, leadInfo, jobFitResult, jobDescription }),
+    }).catch((err) => console.error("[chat] Failed to send interview log:", err));
+  }
 
   // Auto-scroll to bottom on new messages
   useEffect(() => {
