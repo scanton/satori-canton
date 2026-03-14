@@ -1,31 +1,31 @@
 "use client";
 
 import { useChat } from "ai/react";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef } from "react";
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
-import { Send, Loader2, User, Bot, PhoneOff } from "lucide-react";
+import { Send, Loader2, User, Bot } from "lucide-react";
 import { cn } from "@/lib/utils";
 import type { JobFitResult, LeadInfo } from "@/lib/types";
+
+const LOG_DELAY_MS = 30 * 60 * 1000; // 30 minutes
 
 interface InterviewChatProps {
   jobDescription: string;
   jobFitResult: JobFitResult;
   leadInfo: LeadInfo;
-  onEnd?: () => void;
 }
 
 export function InterviewChat({
   jobDescription,
   jobFitResult,
   leadInfo,
-  onEnd,
 }: InterviewChatProps) {
   const isFirstMessage = useRef(true);
   const logSent = useRef(false);
   const scrollRef = useRef<HTMLDivElement>(null);
-  const [isEnding, setIsEnding] = useState(false);
+  const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   const { messages, input, handleInputChange, handleSubmit, isLoading, error } =
     useChat({
@@ -41,21 +41,61 @@ export function InterviewChat({
       },
     });
 
-  const endInterview = async () => {
-    if (logSent.current || messages.length === 0) { onEnd?.(); return; }
-    logSent.current = true;
-    setIsEnding(true);
-    try {
-      await fetch("/api/chat/log", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ messages, leadInfo, jobFitResult, jobDescription }),
-      });
-    } catch (err) {
-      console.error("[chat] Failed to send interview log:", err);
+  // Keep a ref to messages so timer/cleanup closures always see current value
+  const messagesRef = useRef(messages);
+  useEffect(() => {
+    messagesRef.current = messages;
+  }, [messages]);
+
+  // Start 30-min auto-send timer on first message
+  useEffect(() => {
+    if (messages.length === 1 && !timerRef.current && !logSent.current) {
+      timerRef.current = setTimeout(() => {
+        postLog(messagesRef.current);
+      }, LOG_DELAY_MS);
     }
-    onEnd?.();
-  };
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [messages.length]);
+
+  // On unmount: cancel timer, send log via sendBeacon (survives page close)
+  useEffect(() => {
+    return () => {
+      if (timerRef.current) clearTimeout(timerRef.current);
+      if (!logSent.current && messagesRef.current.length > 0) {
+        logSent.current = true;
+        const body = JSON.stringify({
+          messages: messagesRef.current,
+          leadInfo,
+          jobFitResult,
+          jobDescription,
+        });
+        if (typeof navigator !== "undefined" && navigator.sendBeacon) {
+          navigator.sendBeacon(
+            "/api/chat/log",
+            new Blob([body], { type: "application/json" })
+          );
+        } else {
+          fetch("/api/chat/log", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body,
+            keepalive: true,
+          }).catch(() => {});
+        }
+      }
+    };
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  function postLog(msgs: typeof messages) {
+    if (logSent.current || msgs.length === 0) return;
+    logSent.current = true;
+    fetch("/api/chat/log", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ messages: msgs, leadInfo, jobFitResult, jobDescription }),
+    }).catch((err) => console.error("[chat] Failed to send interview log:", err));
+  }
 
   // Auto-scroll to bottom on new messages
   useEffect(() => {
@@ -84,23 +124,9 @@ export function InterviewChat({
       <div className="px-4 py-3 border-b border-border/50 bg-muted/30 flex items-center gap-2">
         <div className="h-2 w-2 rounded-full bg-strength animate-pulse" />
         <span className="text-sm font-medium">Virtual Interview</span>
-        <span className="text-xs text-muted-foreground ml-2 flex-1">
+        <span className="text-xs text-muted-foreground ml-auto">
           AI represents Satori&apos;s documented background
         </span>
-        <Button
-          variant="ghost"
-          size="sm"
-          className="h-7 gap-1.5 text-xs text-muted-foreground hover:text-destructive"
-          onClick={endInterview}
-          disabled={isEnding}
-        >
-          {isEnding ? (
-            <Loader2 className="h-3 w-3 animate-spin" />
-          ) : (
-            <PhoneOff className="h-3 w-3" />
-          )}
-          End Interview
-        </Button>
       </div>
 
       {/* Messages */}

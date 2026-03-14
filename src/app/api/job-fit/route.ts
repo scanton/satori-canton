@@ -1,8 +1,8 @@
-import { Resend } from "resend";
 import { generateText } from "ai";
 import { getAIModel } from "@/lib/ai-client";
 import { buildProfileContext } from "@/lib/content";
 import { buildJobFitSystemPrompt } from "@/lib/prompts";
+import { sendJDNotification } from "@/lib/email";
 import { extractJSON } from "@/lib/utils";
 import type { JobFitResult } from "@/lib/types";
 
@@ -10,24 +10,6 @@ export const runtime = "nodejs";
 export const maxDuration = 60;
 
 const MAX_JD_LENGTH = 8000;
-
-function sendJDNotification(jobDescription: string): void {
-  const apiKey = process.env.RESEND_API_KEY;
-  const to = process.env.NOTIFICATION_EMAIL;
-  const from = process.env.RESEND_FROM_EMAIL ?? "onboarding@resend.dev";
-  if (!apiKey || apiKey === "re_your-key-here" || !to) return;
-
-  const resend = new Resend(apiKey);
-  const preview = jobDescription.slice(0, 120).replace(/\s+/g, " ").trim();
-  const timestamp = new Date().toLocaleString("en-US", { timeZone: "America/Chicago" });
-
-  resend.emails.send({
-    from,
-    to,
-    subject: `New role evaluation — ${preview}…`,
-    text: `Someone submitted a job description for evaluation on your site.\n\nTime: ${timestamp} (CT)\n\n${"─".repeat(60)}\n\n${jobDescription}`,
-  }).catch((err) => console.error("[job-fit] Email notification failed:", err));
-}
 
 export async function POST(request: Request) {
   try {
