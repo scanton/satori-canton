@@ -48,32 +48,32 @@
 
   .dark {
     /* ── Dark Mode ──────────────────────────────────────────── */
-    --background: 224 33% 8%;
-    --foreground: 213 31% 91%;
+    --background: 0 0% 9%;
+    --foreground: 0 0% 92%;
 
-    --card: 226 33% 13%;
-    --card-foreground: 213 31% 91%;
+    --card: 0 0% 14%;
+    --card-foreground: 0 0% 92%;
 
-    --popover: 226 33% 13%;
-    --popover-foreground: 213 31% 91%;
+    --popover: 0 0% 14%;
+    --popover-foreground: 0 0% 92%;
 
     --primary: 239 84% 67%;
     --primary-foreground: 0 0% 100%;
 
-    --secondary: 217 33% 20%;
-    --secondary-foreground: 213 31% 91%;
+    --secondary: 0 0% 20%;
+    --secondary-foreground: 0 0% 92%;
 
-    --muted: 217 33% 18%;
-    --muted-foreground: 215 20% 55%;
+    --muted: 0 0% 18%;
+    --muted-foreground: 0 0% 55%;
 
-    --accent: 217 33% 18%;
+    --accent: 0 0% 18%;
     --accent-foreground: 239 84% 75%;
 
     --destructive: 0 63% 45%;
     --destructive-foreground: 0 0% 100%;
 
-    --border: 217 33% 20%;
-    --input: 217 33% 20%;
+    --border: 0 0% 22%;
+    --input: 0 0% 22%;
     --ring: 239 84% 67%;
 
     /* ── Semantic: Strengths (emerald, dark) ────────────────── */

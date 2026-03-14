@@ -114,7 +114,7 @@ export function ProfileHero({ profile }: ProfileHeroProps) {
               alt={profile.name}
               width={120}
               height={120}
-              className="rounded-full ring-2 ring-border/60 object-cover"
+              className="rounded-full ring-[5px] ring-border object-cover"
               priority
             />
           </motion.div>
