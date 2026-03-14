@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import Link from "next/link";
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
@@ -24,12 +25,12 @@ export function ProfileHero({ profile }: ProfileHeroProps) {
         }}
       />
 
-      <div className="relative max-w-6xl mx-auto px-4 sm:px-6">
+      <div className="relative max-w-6xl mx-auto px-4 sm:px-6 flex items-start gap-10">
         <motion.div
           initial={{ opacity: 0, y: 16 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, ease: "easeOut" }}
-          className="max-w-3xl"
+          className="flex-1 max-w-3xl"
         >
           {/* Availability badge */}
           {profile.availableForWork && (
@@ -99,6 +100,25 @@ export function ProfileHero({ profile }: ProfileHeroProps) {
             </Link>
           </motion.div>
         </motion.div>
+
+        {/* Avatar */}
+        {profile.avatar && (
+          <motion.div
+            initial={{ opacity: 0, scale: 0.92 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 0.5, delay: 0.2 }}
+            className="hidden sm:block shrink-0 mt-1"
+          >
+            <Image
+              src={profile.avatar}
+              alt={profile.name}
+              width={120}
+              height={120}
+              className="rounded-full ring-2 ring-border/60 object-cover"
+              priority
+            />
+          </motion.div>
+        )}
       </div>
     </section>
   );
