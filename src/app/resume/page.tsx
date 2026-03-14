@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Image from "next/image";
 import Link from "next/link";
 import {
   loadProfile,
@@ -31,9 +32,21 @@ export default async function ResumePage() {
     <div className="max-w-4xl mx-auto px-4 sm:px-6 py-12">
       {/* Header row */}
       <div className="flex items-start justify-between mb-8">
-        <div>
-          <h1 className="font-serif text-4xl font-normal mb-1">{profile.name}</h1>
-          <p className="text-lg text-muted-foreground">{profile.title}</p>
+        <div className="flex items-center gap-4">
+          {profile.avatar && (
+            <Image
+              src={profile.avatar}
+              alt={profile.name}
+              width={72}
+              height={72}
+              className="rounded-full ring-1 ring-border/60 object-cover shrink-0"
+              priority
+            />
+          )}
+          <div>
+            <h1 className="font-serif text-4xl font-normal mb-1">{profile.name}</h1>
+            <p className="text-lg text-muted-foreground">{profile.title}</p>
+          </div>
         </div>
         <PrintButton />
       </div>
