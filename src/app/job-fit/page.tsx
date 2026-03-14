@@ -325,6 +325,7 @@ export default function JobFitPage() {
               jobDescription={jobDescription}
               jobFitResult={result}
               leadInfo={leadInfo}
+              onEnd={() => setPhase("results")}
             />
 
             <Button

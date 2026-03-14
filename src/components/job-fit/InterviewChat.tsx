@@ -1,11 +1,11 @@
 "use client";
 
 import { useChat } from "ai/react";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
-import { Send, Loader2, User, Bot } from "lucide-react";
+import { Send, Loader2, User, Bot, PhoneOff } from "lucide-react";
 import { cn } from "@/lib/utils";
 import type { JobFitResult, LeadInfo } from "@/lib/types";
 
@@ -13,15 +13,19 @@ interface InterviewChatProps {
   jobDescription: string;
   jobFitResult: JobFitResult;
   leadInfo: LeadInfo;
+  onEnd?: () => void;
 }
 
 export function InterviewChat({
   jobDescription,
   jobFitResult,
   leadInfo,
+  onEnd,
 }: InterviewChatProps) {
   const isFirstMessage = useRef(true);
+  const logSent = useRef(false);
   const scrollRef = useRef<HTMLDivElement>(null);
+  const [isEnding, setIsEnding] = useState(false);
 
   const { messages, input, handleInputChange, handleSubmit, isLoading, error } =
     useChat({
@@ -36,6 +40,22 @@ export function InterviewChat({
         isFirstMessage.current = false;
       },
     });
+
+  const endInterview = async () => {
+    if (logSent.current || messages.length === 0) { onEnd?.(); return; }
+    logSent.current = true;
+    setIsEnding(true);
+    try {
+      await fetch("/api/chat/log", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ messages, leadInfo, jobFitResult, jobDescription }),
+      });
+    } catch (err) {
+      console.error("[chat] Failed to send interview log:", err);
+    }
+    onEnd?.();
+  };
 
   // Auto-scroll to bottom on new messages
   useEffect(() => {
@@ -64,9 +84,23 @@ export function InterviewChat({
       <div className="px-4 py-3 border-b border-border/50 bg-muted/30 flex items-center gap-2">
         <div className="h-2 w-2 rounded-full bg-strength animate-pulse" />
         <span className="text-sm font-medium">Virtual Interview</span>
-        <span className="text-xs text-muted-foreground ml-auto">
+        <span className="text-xs text-muted-foreground ml-2 flex-1">
           AI represents Satori&apos;s documented background
         </span>
+        <Button
+          variant="ghost"
+          size="sm"
+          className="h-7 gap-1.5 text-xs text-muted-foreground hover:text-destructive"
+          onClick={endInterview}
+          disabled={isEnding}
+        >
+          {isEnding ? (
+            <Loader2 className="h-3 w-3 animate-spin" />
+          ) : (
+            <PhoneOff className="h-3 w-3" />
+          )}
+          End Interview
+        </Button>
       </div>
 
       {/* Messages */}
