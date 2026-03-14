@@ -14,6 +14,7 @@ export interface Profile {
     location: string;
   };
   summary: string;
+  resumeSummary?: string;
   availableForWork: boolean;
   preferredRoles: string[];
 }

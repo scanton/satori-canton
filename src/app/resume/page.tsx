@@ -67,7 +67,13 @@ export default async function ResumePage() {
       {/* Summary */}
       <section className="mb-10">
         <h2 className="font-serif text-2xl font-normal mb-4">Summary</h2>
-        <p className="text-muted-foreground leading-relaxed">{profile.summary}</p>
+        <div className="space-y-3">
+          {(profile.resumeSummary ?? profile.summary).split("\n\n").map((para, i) => (
+            <p key={i} className="text-muted-foreground leading-relaxed">
+              {para}
+            </p>
+          ))}
+        </div>
       </section>
 
       <Separator className="mb-10 opacity-30" />
