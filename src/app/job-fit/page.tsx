@@ -98,7 +98,7 @@ export default function JobFitPage() {
       <div className="flex items-start gap-2 p-3 rounded-lg bg-accent/30 border border-border/50 mb-8 text-xs text-muted-foreground">
         <Info className="h-3.5 w-3.5 mt-0.5 shrink-0 text-primary/70" />
         <span>
-          This AI analysis is powered by Satori&apos;s documented background and hero
+          This AI analysis is powered by Satori&apos;s documented background and case
           stories. It is designed to be honest — including about gaps. Powered by{" "}
           <span className="text-foreground/80">OpenRouter</span>.
         </span>
@@ -344,7 +344,7 @@ export default function JobFitPage() {
       </AnimatePresence>
 
       {/* Lead capture modal */}
-      <LeadCaptureModal open={showLeadModal} onSubmit={handleLeadSubmit} />
+      <LeadCaptureModal open={showLeadModal} onClose={() => setShowLeadModal(false)} onSubmit={handleLeadSubmit} />
     </div>
   );
 }
