@@ -14,10 +14,11 @@ import type { LeadInfo } from "@/lib/types";
 
 interface LeadCaptureModalProps {
   open: boolean;
+  onClose: () => void;
   onSubmit: (leadInfo: LeadInfo) => void;
 }
 
-export function LeadCaptureModal({ open, onSubmit }: LeadCaptureModalProps) {
+export function LeadCaptureModal({ open, onClose, onSubmit }: LeadCaptureModalProps) {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [company, setCompany] = useState("");
@@ -32,7 +33,7 @@ export function LeadCaptureModal({ open, onSubmit }: LeadCaptureModalProps) {
   };
 
   return (
-    <Dialog open={open}>
+    <Dialog open={open} onOpenChange={(isOpen) => { if (!isOpen) onClose(); }}>
       <DialogContent className="sm:max-w-md" onInteractOutside={(e) => e.preventDefault()}>
         <DialogHeader>
           <DialogTitle className="font-serif text-2xl font-normal flex items-center gap-2">

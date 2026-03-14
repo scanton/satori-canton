@@ -344,7 +344,7 @@ export default function JobFitPage() {
       </AnimatePresence>
 
       {/* Lead capture modal */}
-      <LeadCaptureModal open={showLeadModal} onSubmit={handleLeadSubmit} />
+      <LeadCaptureModal open={showLeadModal} onClose={() => setShowLeadModal(false)} onSubmit={handleLeadSubmit} />
     </div>
   );
 }
