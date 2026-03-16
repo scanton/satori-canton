@@ -1,11 +1,11 @@
 "use client";
 
 import { useChat } from "ai/react";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
-import { Send, Loader2, User, Bot } from "lucide-react";
+import { Send, Loader2, User, Bot, AlertCircle, RefreshCw } from "lucide-react";
 import { cn } from "@/lib/utils";
 import type { JobFitResult, LeadInfo } from "@/lib/types";
 
@@ -26,8 +26,9 @@ export function InterviewChat({
   const logSent = useRef(false);
   const scrollRef = useRef<HTMLDivElement>(null);
   const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const [chatError, setChatError] = useState<string | null>(null);
 
-  const { messages, input, handleInputChange, handleSubmit, isLoading, error } =
+  const { messages, input, handleInputChange, handleSubmit, isLoading, error, reload } =
     useChat({
       api: "/api/chat",
       body: {
@@ -38,6 +39,19 @@ export function InterviewChat({
       },
       onFinish: () => {
         isFirstMessage.current = false;
+        setChatError(null);
+      },
+      onError: (err) => {
+        const msg = (err.message ?? "").toLowerCase();
+        if (msg.includes("rate limit") || msg.includes("429") || msg.includes("too many")) {
+          setChatError("The AI service is rate-limited right now. Please wait a moment and try again.");
+        } else if (msg.includes("overload") || msg.includes("503") || msg.includes("capacity") || msg.includes("no endpoints")) {
+          setChatError("The AI model is temporarily overloaded. Please try again in a few seconds.");
+        } else if (msg.includes("timeout") || msg.includes("timed out")) {
+          setChatError("The request timed out. Please try again.");
+        } else {
+          setChatError("The AI service had a hiccup. Please try again.");
+        }
       },
     });
 
@@ -192,10 +206,22 @@ export function InterviewChat({
           </div>
         )}
 
-        {error && (
-          <p className="text-xs text-destructive text-center">
-            Something went wrong. Please try again.
-          </p>
+        {(error || chatError) && (
+          <div className="flex flex-col items-center gap-2 py-2">
+            <p className="text-xs text-destructive flex items-center gap-1.5">
+              <AlertCircle className="h-3.5 w-3.5 shrink-0" />
+              {chatError ?? "Something went wrong. Please try again."}
+            </p>
+            <Button
+              variant="outline"
+              size="sm"
+              className="h-7 text-xs gap-1.5"
+              onClick={() => { setChatError(null); reload(); }}
+            >
+              <RefreshCw className="h-3 w-3" />
+              Try Again
+            </Button>
+          </div>
         )}
       </div>
 
