@@ -54,10 +54,26 @@ export async function POST(request: Request) {
     return Response.json(result);
   } catch (error) {
     console.error("[job-fit] Error:", error);
-    const message =
-      error instanceof SyntaxError
-        ? "The AI returned an unexpected response format. Please try again."
-        : "Job fit analysis failed. Please try again.";
-    return Response.json({ error: message }, { status: 500 });
+    return Response.json({ error: toUserMessage(error, "Analysis") }, { status: 500 });
   }
+}
+
+function toUserMessage(error: unknown, context: string): string {
+  if (error instanceof SyntaxError) {
+    return "The AI returned an unexpected response format. Please try again.";
+  }
+  const msg = (error instanceof Error ? error.message : String(error)).toLowerCase();
+  if (msg.includes("rate limit") || msg.includes("429") || msg.includes("too many requests")) {
+    return "The AI service is rate-limited right now. Please wait a moment and try again.";
+  }
+  if (msg.includes("overload") || msg.includes("503") || msg.includes("capacity") || msg.includes("no endpoints")) {
+    return "The AI model is temporarily overloaded. Please try again in a few seconds.";
+  }
+  if (msg.includes("timeout") || msg.includes("timed out") || msg.includes("deadline")) {
+    return "The request timed out. Please try again.";
+  }
+  if (msg.includes("api key") || msg.includes("unauthorized") || msg.includes("401") || msg.includes("403")) {
+    return `${context} is temporarily unavailable. Please try again later.`;
+  }
+  return `${context} failed. Please try again.`;
 }
