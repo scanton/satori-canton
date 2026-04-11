@@ -87,6 +87,17 @@
       "outcome": "Opened Satori Gallery featuring 20 original musician portrait DML flat-panel speakers driven by a 5-channel DSP audio system, a full wood/metal/leather maker space, and recurring Oscilloscope Art events where audio channels drive real-time visual animations.",
       "featured": true,
       "order": 8
+    },
+    {
+      "id": "phase2s",
+      "title": "One Model Is Not Enough",
+      "subtitle": "Building an AI agent harness that uses your ChatGPT subscription to challenge Claude — and a 'dark factory' that executes long-horizon specs while you sleep.",
+      "date": "2024-06-01",
+      "tags": ["AI Agent Design", "Open Source", "Developer Tooling", "Adversarial AI", "Autonomous Execution", "MCP Integration"],
+      "companyContext": "a self-directed open-source project — published as @scanton/phase2s on npm — built to solve real problems I hit every day using AI for software development",
+      "outcome": "Published Phase2S: a full AI coding agent harness with 29 built-in skills, cross-model adversarial review, a 'dark factory' for autonomous spec execution, and 1,191 tests. Works on your existing ChatGPT subscription — no API key required.",
+      "featured": true,
+      "order": 9
     }
   ]
 }
