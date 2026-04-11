@@ -1,0 +1,105 @@
+---
+id: phase2s
+title: "One Model Is Not Enough"
+subtitle: "Building an AI agent harness that uses your ChatGPT subscription to challenge Claude — and a 'dark factory' that executes long-horizon specs while you sleep."
+date: "2024-06-01"
+tags: ["AI Agent Design", "Open Source", "Developer Tooling", "Adversarial AI", "Autonomous Execution", "MCP Integration"]
+companyContext: "a self-directed open-source project — published as @scanton/phase2s on npm — built to solve real problems I hit every day using AI for software development"
+outcome: "Published Phase2S: a full AI coding agent harness with 29 built-in skills, cross-model adversarial review, a 'dark factory' for autonomous spec execution, and 1,191 tests. Works on your existing ChatGPT subscription — no API key required."
+featured: true
+order: 9
+---
+
+## The Problem
+
+I use Claude Code every day. It's genuinely excellent. But there's a structural problem with any single AI model reviewing its own work: the same training data, the same architectural biases, the same blind spots. Claude agrees with Claude. When Claude writes a plan and then evaluates that plan, you're running one perspective twice.
+
+The failure mode isn't hallucination — it's confident coherence. A model with one set of biases can generate a perfectly well-reasoned plan that misses something fundamental, and no amount of re-asking the same model will surface that gap. You need a different model asking the question.
+
+The second problem was autonomy. Most AI coding tools are interactive by design — you watch the agent work, you guide it, you approve each step. That's the right model for nuanced architectural decisions. It's the wrong model for well-specified implementation tasks. If I've written a precise spec with clear acceptance criteria, I want to hand it off and come back when it's done — not babysit 30 rounds of tool calls.
+
+## What I Built
+
+Phase2S is a full AI agent harness. Three things it does that I couldn't find anywhere else:
+
+**1. Your ChatGPT subscription, in the terminal.**
+
+If you pay for ChatGPT Plus or Pro, you already have access to GPT-4o. Phase2S lets you use that subscription — not via API, but via the same browser auth that powers the ChatGPT website — as a programmable coding assistant in your terminal. No per-token billing. No API key management. The $20/month you're already paying starts working as a development tool.
+
+It's also provider-agnostic: Anthropic, OpenRouter, Ollama (fully local), Google Gemini, and others all work. The 29 built-in skills use model-tier routing — fast model for lightweight tasks, smart model for architecture decisions.
+
+**2. Adversarial cross-model review.**
+
+This is the part that matters most to how I use it with Claude Code. Phase2S plugs into Claude Code as an MCP server. When I'm about to execute a significant plan, Claude can call the `phase2s__adversarial` tool — which sends the plan to GPT via your ChatGPT subscription and asks it to challenge Claude's reasoning directly.
+
+The output is structured and blunt:
+
+```
+VERDICT: CHALLENGED
+STRONGEST_CONCERN: Token bucket resets per-request rather than per-window.
+OBJECTIONS:
+1. RateLimiter.check() increments and checks in the same call. When the 
+   window expires, the bucket resets on next request — meaning a client can 
+   always make exactly one request after the window closes. Reset should happen 
+   on a fixed schedule, not lazily on first request.
+2. Rate limiting middleware registers after auth in app.ts line 34. 
+   Unauthenticated requests bypass rate limiting entirely.
+APPROVE_IF: Fix the window reset logic and move middleware before auth.
+```
+
+Claude gets specific, falsifiable objections from a model with no stake in agreeing. I see the verdict. I decide whether to proceed. The key insight is that it's not about which model is smarter — it's about having a second perspective trained on different data, with different failure modes, asking whether the plan actually holds up.
+
+**3. The dark factory.**
+
+The dark factory is what happens when you take a well-specified task and remove the human from the loop entirely.
+
+Write a spec with a problem statement, a list of sub-tasks, acceptance criteria, and an eval command. Run `phase2s goal your-spec.md`. Phase2S breaks the spec into sub-tasks, implements each one using the `/satori` skill (which runs implement → test → retry until green), executes the eval command, checks the acceptance criteria against the actual results, and if anything fails — analyzes what broke, figures out which sub-tasks need to be re-run, and tries again with that failure analysis injected as context.
+
+It keeps going until all criteria pass or it runs out of attempts.
+
+When the spec has three or more independent sub-tasks, it runs them in parallel inside isolated git worktrees — each worker gets its own branch, Phase2S merges back at level boundaries. A 30-minute spec becomes a 12-minute one.
+
+```
+Goal executor: Pagination for search endpoint
+Sub-tasks: 3 | Eval: npm test | Max attempts: 3
+
+=== Attempt 1/3 ===
+[1/3] Running: Cursor-based pagination logic (42s)
+[2/3] Running: API response format update (18s)  
+[3/3] Running: Frontend page controls (31s)
+Eval: npm test → FAIL
+✗ Returns correct next_cursor on paginated results
+✓ Returns 20 items per page by default
+✓ next_cursor is null on last page
+
+Retrying 1 sub-task(s) with failure context...
+
+=== Attempt 2/3 ===
+[1/3] Running: Cursor-based pagination logic (38s)
+Eval: npm test → PASS
+✓ All 3 acceptance criteria met after 2 attempt(s).
+```
+
+## The Architecture That Surprised Me
+
+Building this taught me something I didn't expect: the hardest part wasn't the LLM integration, the skill system, or the parallel execution engine. It was session correctness.
+
+Long-running agents across parallel git worktrees with resumable state create a class of correctness problems that most short-context tools never face. Stale locks after SIGKILL. Concurrent writes to shared session state. Worktrees that don't clean up after failures. Merge conflict detection mid-parallel-run. Context window overflow from accumulated session history.
+
+The session storage ended up as a DAG — sessions fork into branches, branches can be cloned and resumed, and every session stores its `parentId` for full traceability. The lock system uses PID-suffixed tmp files to prevent ABA races, liveness checks to recover stale locks without manual `rm *.lock`, and a rebuild path for corrupted indices.
+
+The result: 1,191 tests, covering tools, core modules, agent integration, goal executor, state server, run logs, parallel execution, worktree lifecycle, merge conflict detection, spec linting, template library, session branching DAG, lock correctness, and secrets scanning.
+
+## Named Agents: Hard-Wired Toolsets
+
+One pattern I landed on that proved unexpectedly useful: agents with tool registries that are enforced at the capability level, not the system prompt level.
+
+Phase2S ships three named agents. Apollo (`:ask`) is read-only — it literally cannot call `file_write`, not because the prompt says so, but because the tool isn't in its registry. Athena (`:plan`) can only write inside `plans/`. Ares (`:build`) has full access. Project config can narrow a built-in's tool list but never expand it.
+
+The distinction matters more than it sounds. A read-only Q&A agent that can't accidentally modify files isn't just safer — it's faster, because it's running a smaller, faster model tuned for retrieval. The tool registry forces honest separation of concerns that a system prompt alone can't guarantee.
+
+## The Meta Point
+
+Phase2S is used to build Phase2S. I use the adversarial review tool when planning new features. I use the dark factory to implement well-understood subsystems. The `/satori` retry loop has caught real regressions — tests that passed on first attempt but failed after integration. The session DAG has recovered context after browser crashes mid-run.
+
+Building tooling that you trust enough to run unsupervised on your own codebase is a different kind of validation than a test suite. It means the failure modes are real, the recovery paths are exercised, and the trust has been earned in production.
