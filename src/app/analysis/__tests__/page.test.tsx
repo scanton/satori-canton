@@ -53,7 +53,7 @@ const validCached = {
   createdAt: "2026-04-14T00:00:00Z",
   result: {
     score: 78,
-    grade: "B",
+    grade: "B" as const,
     headline: "Strong technical fit with a leadership gap",
     roleAlignment: "Good alignment on AI stack.",
     recommendation: "Solid recommendation that is long enough for validation.",

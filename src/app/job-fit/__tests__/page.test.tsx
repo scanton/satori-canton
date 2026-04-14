@@ -48,7 +48,7 @@ vi.mock("@/components/job-fit/InterviewChat", () => ({
 
 const validResult = {
   score: 78,
-  grade: "B",
+  grade: "B" as const,
   headline: "Strong technical fit",
   roleAlignment: "Good alignment.",
   recommendation: "Solid recommendation that is valid.",
@@ -59,7 +59,7 @@ const validResult = {
   cached: false,
 };
 
-function mockFetch(result = validResult, ok = true) {
+function mockFetch(result: Omit<typeof validResult, "id"> & { id: string | null } = validResult, ok = true) {
   global.fetch = vi.fn().mockImplementation((url: string) => {
     if (url === "/api/job-fit") {
       return Promise.resolve({

@@ -48,7 +48,7 @@ import { getCachedAnalysisByJD, writeCachedAnalysis } from "@/lib/analysis-cache
 
 const validResult = {
   score: 78,
-  grade: "B",
+  grade: "B" as const,
   headline: "Strong technical fit with a leadership gap",
   roleAlignment: "Good alignment.",
   recommendation: "This recommendation is long enough to be valid.",

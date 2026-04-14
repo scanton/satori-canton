@@ -64,7 +64,7 @@ export async function POST(request: Request) {
           () =>
             generateText({
               model: getOpenRouterModel(modelId),
-              signal: AbortSignal.timeout(15000),
+              abortSignal: AbortSignal.timeout(15000),
               system: systemPrompt,
               prompt: `Please analyze the fit for the following job description:\n\n${jobDescription}`,
             }),
