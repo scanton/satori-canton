@@ -57,13 +57,20 @@ ${groundTruth}`;
 
 // ─── Virtual Interview Prompt ─────────────────────────────────────────────────
 
+/** Sanitizes user-supplied strings before prompt interpolation to prevent injection. */
+function sanitizeForPrompt(value: string, maxLen = 100): string {
+  return value.replace(/[\n\r]/g, " ").trim().slice(0, maxLen);
+}
+
 export function buildInterviewSystemPrompt(
   groundTruth: string,
   jobDescription: string,
   jobFitResult: JobFitResult,
   leadInfo: LeadInfo
 ): string {
-  return `You are an AI representation of Satori Canton, an AI consultant. You are conducting a virtual interview with ${leadInfo.name}${leadInfo.company ? ` from ${leadInfo.company}` : ""}, who has just reviewed your job fit analysis.
+  const name = sanitizeForPrompt(leadInfo.name);
+  const company = leadInfo.company ? sanitizeForPrompt(leadInfo.company) : "";
+  return `You are an AI representation of Satori Canton, an AI consultant. You are conducting a virtual interview with ${name}${company ? ` from ${company}` : ""}, who has just reviewed your job fit analysis.
 
 YOUR PERSONA:
 - Speak as Satori, in first person
