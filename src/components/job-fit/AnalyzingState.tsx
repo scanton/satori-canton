@@ -13,15 +13,40 @@ const STATUS_MESSAGES = [
   "Crafting honest recommendation...",
 ];
 
-export function AnalyzingState() {
-  const [index, setIndex] = useState(0);
+interface AnalyzingStateProps {
+  startTime?: number;
+}
 
+export function AnalyzingState({ startTime }: AnalyzingStateProps) {
+  const [index, setIndex] = useState(0);
+  const [elapsed, setElapsed] = useState(0);
+
+  // Cycle through normal status messages every 1.8s
   useEffect(() => {
     const interval = setInterval(() => {
       setIndex((prev) => (prev + 1) % STATUS_MESSAGES.length);
     }, 1800);
     return () => clearInterval(interval);
   }, []);
+
+  // Track elapsed seconds when startTime is provided
+  useEffect(() => {
+    if (!startTime) return;
+    const interval = setInterval(() => {
+      setElapsed(Math.floor((Date.now() - startTime) / 1000));
+    }, 500);
+    return () => clearInterval(interval);
+  }, [startTime]);
+
+  // Time-based override messages (honest about what's actually happening)
+  let displayMessage: string;
+  if (startTime && elapsed >= 15) {
+    displayMessage = "Trying a backup model — almost done.";
+  } else if (startTime && elapsed >= 5) {
+    displayMessage = "Free-tier model is warming up — this may take a moment.";
+  } else {
+    displayMessage = STATUS_MESSAGES[index];
+  }
 
   return (
     <div className="flex flex-col items-center justify-center py-20 gap-6">
@@ -33,14 +58,14 @@ export function AnalyzingState() {
       <div className="h-7 overflow-hidden">
         <AnimatePresence mode="wait">
           <motion.p
-            key={index}
+            key={displayMessage}
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -10 }}
             transition={{ duration: 0.3 }}
             className="text-sm text-muted-foreground text-center"
           >
-            {STATUS_MESSAGES[index]}
+            {displayMessage}
           </motion.p>
         </AnimatePresence>
       </div>
