@@ -19,6 +19,8 @@ import {
   ChevronDown,
   ChevronUp,
   Info,
+  Link as LinkIcon,
+  CheckCircle,
 } from "lucide-react";
 import type { JobFitPhase, JobFitResult, LeadInfo, HeroStoryMeta } from "@/lib/types";
 
@@ -28,40 +30,46 @@ export default function JobFitPage() {
   const [phase, setPhase] = useState<JobFitPhase>("input");
   const [jobDescription, setJobDescription] = useState("");
   const [result, setResult] = useState<JobFitResult | null>(null);
+  const [analysisId, setAnalysisId] = useState<string | null>(null);
+  const [analyzeStartTime, setAnalyzeStartTime] = useState<number>(0);
   const [allStories, setAllStories] = useState<HeroStoryMeta[]>([]);
   const [leadInfo, setLeadInfo] = useState<LeadInfo | null>(null);
   const [showLeadModal, setShowLeadModal] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [scorecardCollapsed, setScorecardCollapsed] = useState(false);
+  const [copied, setCopied] = useState(false);
 
   const handleAnalyze = useCallback(async () => {
     if (!jobDescription.trim()) return;
     setError(null);
+    setAnalysisId(null);
+    const now = Date.now();
+    setAnalyzeStartTime(now);
     setPhase("analyzing");
 
     try {
-      const [fitRes, storiesRes] = await Promise.all([
-        fetch("/api/job-fit", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ jobDescription }),
-        }),
-        fetch("/api/stories"),
-      ]);
+      const fitRes = await fetch("/api/job-fit", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ jobDescription }),
+      });
 
       if (!fitRes.ok) {
         const data = await fitRes.json();
         throw new Error(data.error ?? "Analysis failed");
       }
 
-      const fitData: JobFitResult = await fitRes.json();
-      setResult(fitData);
+      const { id, cached: _cached, ...fitData } = await fitRes.json();
+      setResult(fitData as JobFitResult);
+      setAnalysisId(id ?? null);
 
-      // Load stories for RelevantStories component (best effort)
-      if (storiesRes.ok) {
-        const stories: HeroStoryMeta[] = await storiesRes.json();
-        setAllStories(stories);
-      }
+      // Load stories separately — failure here should never break the analysis result
+      fetch("/api/stories")
+        .then((r) => (r.ok ? r.json() : null))
+        .then((stories: HeroStoryMeta[] | null) => {
+          if (stories) setAllStories(stories);
+        })
+        .catch(() => {/* non-fatal */});
 
       setPhase("results");
     } catch (err) {
@@ -71,6 +79,19 @@ export default function JobFitPage() {
       setPhase("input");
     }
   }, [jobDescription]);
+
+  const handleShare = useCallback(async () => {
+    if (!analysisId) return;
+    const shareUrl = `${window.location.origin}/analysis/${analysisId}`;
+    try {
+      await navigator.clipboard.writeText(shareUrl);
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2000);
+    } catch {
+      // Fallback for HTTP contexts (e.g. localhost without HTTPS)
+      prompt("Copy this link:", shareUrl);
+    }
+  }, [analysisId]);
 
   const handleBeginInterview = () => {
     setShowLeadModal(true);
@@ -160,7 +181,10 @@ export default function JobFitPage() {
             exit={{ opacity: 0 }}
             transition={{ duration: 0.3 }}
           >
-            <AnalyzingState />
+            <AnalyzingState
+              startTime={analyzeStartTime}
+              onCancel={() => setPhase("input")}
+            />
           </motion.div>
         )}
 
@@ -236,6 +260,31 @@ export default function JobFitPage() {
               </div>
             )}
 
+            {/* Share Analysis — right-aligned, above CTA block */}
+            {analysisId && (
+              <div className="flex justify-end">
+                <Button
+                  size="sm"
+                  variant="outline"
+                  onClick={handleShare}
+                  className="gap-2"
+                  aria-label={copied ? "Analysis link copied" : "Copy analysis link"}
+                >
+                  {copied ? (
+                    <>
+                      <CheckCircle className="h-4 w-4 text-green-500" />
+                      Link copied!
+                    </>
+                  ) : (
+                    <>
+                      <LinkIcon className="h-4 w-4" />
+                      Share Analysis
+                    </>
+                  )}
+                </Button>
+              </div>
+            )}
+
             <Separator className="opacity-30" />
 
             {/* Begin interview CTA */}
@@ -258,6 +307,7 @@ export default function JobFitPage() {
                   onClick={() => {
                     setPhase("input");
                     setResult(null);
+                    setAnalysisId(null);
                   }}
                 >
                   Analyze a Different Role
@@ -284,10 +334,7 @@ export default function JobFitPage() {
               >
                 <span className="font-medium flex items-center gap-2">
                   Job Fit Summary
-                  <Badge
-                    variant="outline"
-                    className="text-xs"
-                  >
+                  <Badge variant="outline" className="text-xs">
                     {result.grade} · {result.score}/100
                   </Badge>
                 </span>
@@ -335,6 +382,7 @@ export default function JobFitPage() {
                 setPhase("input");
                 setResult(null);
                 setLeadInfo(null);
+                setAnalysisId(null);
               }}
             >
               Start Over with a Different Role
@@ -344,7 +392,11 @@ export default function JobFitPage() {
       </AnimatePresence>
 
       {/* Lead capture modal */}
-      <LeadCaptureModal open={showLeadModal} onClose={() => setShowLeadModal(false)} onSubmit={handleLeadSubmit} />
+      <LeadCaptureModal
+        open={showLeadModal}
+        onClose={() => setShowLeadModal(false)}
+        onSubmit={handleLeadSubmit}
+      />
     </div>
   );
 }

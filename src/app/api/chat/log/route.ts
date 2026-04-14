@@ -17,6 +17,16 @@ export async function POST(request: Request) {
       return Response.json({ error: "Missing required fields" }, { status: 400 });
     }
 
+    // Same caps as the chat route — prevents oversized email payloads / Resend abuse
+    const MAX_MESSAGES = 50;
+    const MAX_MESSAGE_CHARS = 4_000;
+    if (messages.length > MAX_MESSAGES) {
+      return Response.json({ error: "Too many messages." }, { status: 400 });
+    }
+    if (messages.some((m: { role: string; content: string }) => m.content.length > MAX_MESSAGE_CHARS)) {
+      return Response.json({ error: "Message content too long." }, { status: 400 });
+    }
+
     await sendInterviewLog(leadInfo, jobDescription ?? "", jobFitResult, messages);
 
     return Response.json({ ok: true });

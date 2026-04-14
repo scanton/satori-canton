@@ -1,13 +1,17 @@
 import { generateText } from "ai";
-import { getAIModel } from "@/lib/ai-client";
+import { getOpenRouterModel, MODEL_FALLBACK_LIST } from "@/lib/ai-client";
 import { buildProfileContext } from "@/lib/content";
 import { buildJobFitSystemPrompt } from "@/lib/prompts";
 import { sendJDNotification } from "@/lib/email";
-import { extractJSON } from "@/lib/utils";
+import { extractJSON, scoreToGrade } from "@/lib/utils";
+import { withRetry } from "@/lib/ai-retry";
+import { isValidJobFitResult } from "@/lib/ai-validate";
+import { toUserMessage } from "@/lib/ai-errors";
+import { getCachedAnalysisByJD, writeCachedAnalysis } from "@/lib/analysis-cache";
 import type { JobFitResult } from "@/lib/types";
 
 export const runtime = "nodejs";
-export const maxDuration = 60;
+export const maxDuration = 120;
 
 const MAX_JD_LENGTH = 8000;
 
@@ -33,47 +37,78 @@ export async function POST(request: Request) {
     }
 
     // Fire-and-forget — never delays the analysis response
-    sendJDNotification(jobDescription);
+    sendJDNotification(jobDescription).catch((err) =>
+      console.error("[job-fit] JD notification failed:", err)
+    );
+
+    // Cache hit: return immediately if this exact JD was already analyzed
+    const cached = await getCachedAnalysisByJD(jobDescription);
+    if (cached) {
+      console.log(`[job-fit] Cache hit: analysis:${cached.id}`);
+      return Response.json({ ...cached.result, id: cached.id, cached: true });
+    }
 
     const groundTruth = await buildProfileContext();
     const systemPrompt = buildJobFitSystemPrompt(groundTruth);
 
-    const { text } = await generateText({
-      model: getAIModel(),
-      system: systemPrompt,
-      prompt: `Please analyze the fit for the following job description:\n\n${jobDescription}`,
-    });
+    let result: JobFitResult | null = null;
+    let lastError: unknown;
 
-    // Strip markdown fences if model wraps response
-    const cleaned = extractJSON(text);
-    const result: JobFitResult = JSON.parse(cleaned);
+    // Outer loop: try each model in fallback order
+    for (const modelId of MODEL_FALLBACK_LIST) {
+      console.log(`[job-fit] Cache miss, trying model: ${modelId}`);
+      try {
+        // AbortSignal.timeout inside closure = fresh 15s per attempt
+        const { text } = await withRetry(
+          () =>
+            generateText({
+              model: getOpenRouterModel(modelId),
+              abortSignal: AbortSignal.timeout(15000),
+              system: systemPrompt,
+              prompt: `Please analyze the fit for the following job description:\n\n${jobDescription}`,
+            }),
+          { maxAttempts: 2, baseDelayMs: 300 }
+        );
 
-    // Ensure score is within bounds
-    result.score = Math.min(100, Math.max(0, result.score));
+        const cleaned = extractJSON(text);
+        const parsed = JSON.parse(cleaned);
 
-    return Response.json(result);
+        if (!isValidJobFitResult(parsed)) {
+          console.warn(`[job-fit] Validation failed for model ${modelId}`);
+          lastError = new Error(`Invalid response shape from model ${modelId}`);
+          continue; // try next model
+        }
+
+        parsed.score = Math.min(100, Math.max(0, parsed.score));
+        // Re-derive grade from clamped score — prevents model inconsistency (score:95, grade:"F")
+        parsed.grade = scoreToGrade(parsed.score);
+        result = parsed;
+        break;
+      } catch (err) {
+        lastError = err;
+        const isLast = modelId === MODEL_FALLBACK_LIST.at(-1);
+        console.warn(
+          `[job-fit] Model ${modelId} exhausted${isLast ? " (all models exhausted)" : ", trying next"}:`,
+          err instanceof Error ? err.message : err
+        );
+        if (isLast) throw err;
+      }
+    }
+
+    if (!result) {
+      console.error("[job-fit] All models exhausted");
+      throw lastError ?? new Error("All models exhausted");
+    }
+
+    // Write to cache — only return id if write was confirmed (prevents dead share links)
+    const shareId = await writeCachedAnalysis(jobDescription, result);
+
+    return Response.json({ ...result, id: shareId, cached: false });
   } catch (error) {
     console.error("[job-fit] Error:", error);
-    return Response.json({ error: toUserMessage(error, "Analysis") }, { status: 500 });
+    return Response.json(
+      { error: toUserMessage(error, "Analysis") },
+      { status: 500 }
+    );
   }
-}
-
-function toUserMessage(error: unknown, context: string): string {
-  if (error instanceof SyntaxError) {
-    return "The AI returned an unexpected response format. Please try again.";
-  }
-  const msg = (error instanceof Error ? error.message : String(error)).toLowerCase();
-  if (msg.includes("rate limit") || msg.includes("429") || msg.includes("too many requests")) {
-    return "The AI service is rate-limited right now. Please wait a moment and try again.";
-  }
-  if (msg.includes("overload") || msg.includes("503") || msg.includes("capacity") || msg.includes("no endpoints")) {
-    return "The AI model is temporarily overloaded. Please try again in a few seconds.";
-  }
-  if (msg.includes("timeout") || msg.includes("timed out") || msg.includes("deadline")) {
-    return "The request timed out. Please try again.";
-  }
-  if (msg.includes("api key") || msg.includes("unauthorized") || msg.includes("401") || msg.includes("403")) {
-    return `${context} is temporarily unavailable. Please try again later.`;
-  }
-  return `${context} failed. Please try again.`;
 }
