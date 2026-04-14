@@ -20,5 +20,11 @@ All notable changes to this project will be documented in this file.
 - Chat route now enforces a 50-message / 4,000-char-per-message limit to prevent context stuffing.
 - Health endpoint sanitizes error messages before returning them to avoid leaking provider internals.
 
+### Fixed
+- **Health endpoint HTTP status** — `GET /api/health` now returns HTTP 503 (not 200) when the model probe fails. Monitoring tools, load balancers, and uptime checkers now get the correct signal.
+- **Analyzing state cancel button** — added a Cancel button to the analyzing screen so users are never trapped waiting if the analysis stalls.
+- **Chat route job description length guard** — the `/api/chat` route now enforces the same 8,000-character limit as `/api/job-fit`, closing a context-stuffing bypass path.
+- **Interview log caps** — the `/api/chat/log` endpoint now enforces the same 50-message / 4,000-char-per-message caps as the chat route, preventing oversized email payloads.
+
 ### For contributors
 - **Vitest test suite** — 71 tests across 9 test files covering all new code paths: retry logic, validation, error messages, API routes, UI state machine, and the share page.
