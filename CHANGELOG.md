@@ -27,4 +27,4 @@ All notable changes to this project will be documented in this file.
 - **Interview log caps** — the `/api/chat/log` endpoint now enforces the same 50-message / 4,000-char-per-message caps as the chat route, preventing oversized email payloads.
 
 ### For contributors
-- **Vitest test suite** — 71 tests across 9 test files covering all new code paths: retry logic, validation, error messages, API routes, UI state machine, and the share page.
+- **Vitest test suite** — 77 tests across 10 test files covering all new code paths: retry logic, validation, error messages, API routes, UI state machine, share page, and interview log caps.
