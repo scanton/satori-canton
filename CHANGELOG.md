@@ -11,7 +11,6 @@ All notable changes to this project will be documented in this file.
 - **Output validation** — `isValidJobFitResult()` checks field presence, grade enum, score range, and minimum lengths before accepting any model response. Invalid responses trigger fallback to the next model.
 - **Health endpoint** — `GET /api/health` returns model status and latency. Cached in-memory for 60 seconds to avoid quota drain from polling.
 - **Timing-aware analyzing state** — the "Analyzing..." screen shows "Free-tier model is warming up" after 5 seconds and "Trying a backup model — almost done." after 15 seconds, preventing "did it freeze?" confusion.
-- **Vitest test suite** — 71 tests across 9 test files covering all new code paths: retry logic, validation, error messages, API routes, UI state machine, and the share page.
 
 ### Changed
 - Job description analysis uses a 3-model outer loop with per-model `AbortSignal.timeout(15s)` and `maxDuration` raised to 120 seconds.
@@ -20,3 +19,6 @@ All notable changes to this project will be documented in this file.
 - `leadInfo` fields are sanitized (truncated + stripped of newlines) before prompt interpolation.
 - Chat route now enforces a 50-message / 4,000-char-per-message limit to prevent context stuffing.
 - Health endpoint sanitizes error messages before returning them to avoid leaking provider internals.
+
+### For contributors
+- **Vitest test suite** — 71 tests across 9 test files covering all new code paths: retry logic, validation, error messages, API routes, UI state machine, and the share page.
