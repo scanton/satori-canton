@@ -34,6 +34,15 @@ export async function POST(request: Request) {
       );
     }
 
+    // Guard against oversized job descriptions bypassing the job-fit route's limit
+    const MAX_JD_LENGTH = 8_000;
+    if (typeof jobDescription !== "string" || jobDescription.length > MAX_JD_LENGTH) {
+      return Response.json(
+        { error: "Job description is too long." },
+        { status: 400 }
+      );
+    }
+
     // Guard against context-stuffing: cap messages array and per-message length
     const MAX_MESSAGES = 50;
     const MAX_MESSAGE_CHARS = 4_000;

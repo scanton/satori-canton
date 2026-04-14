@@ -181,7 +181,10 @@ export default function JobFitPage() {
             exit={{ opacity: 0 }}
             transition={{ duration: 0.3 }}
           >
-            <AnalyzingState startTime={analyzeStartTime} />
+            <AnalyzingState
+              startTime={analyzeStartTime}
+              onCancel={() => setPhase("input")}
+            />
           </motion.div>
         )}
 

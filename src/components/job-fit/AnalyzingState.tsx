@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Loader2 } from "lucide-react";
+import { Button } from "@/components/ui/button";
 
 const STATUS_MESSAGES = [
   "Reading job description...",
@@ -15,9 +16,10 @@ const STATUS_MESSAGES = [
 
 interface AnalyzingStateProps {
   startTime?: number;
+  onCancel?: () => void;
 }
 
-export function AnalyzingState({ startTime }: AnalyzingStateProps) {
+export function AnalyzingState({ startTime, onCancel }: AnalyzingStateProps) {
   const [index, setIndex] = useState(0);
   const [elapsed, setElapsed] = useState(0);
 
@@ -55,7 +57,7 @@ export function AnalyzingState({ startTime }: AnalyzingStateProps) {
         <div className="absolute inset-0 rounded-full bg-primary/10 animate-ping" />
       </div>
 
-      <div className="h-7 overflow-hidden">
+      <div className="min-h-[28px]">
         <AnimatePresence mode="wait">
           <motion.p
             key={displayMessage}
@@ -70,9 +72,16 @@ export function AnalyzingState({ startTime }: AnalyzingStateProps) {
         </AnimatePresence>
       </div>
 
-      <p className="text-xs text-muted-foreground/60">
-        Powered by AI · Calibrated for honesty
-      </p>
+      {onCancel && (
+        <Button
+          variant="ghost"
+          size="sm"
+          onClick={onCancel}
+          className="text-xs text-muted-foreground/60 hover:text-muted-foreground"
+        >
+          Cancel
+        </Button>
+      )}
     </div>
   );
 }

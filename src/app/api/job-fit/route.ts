@@ -3,11 +3,10 @@ import { getOpenRouterModel, MODEL_FALLBACK_LIST } from "@/lib/ai-client";
 import { buildProfileContext } from "@/lib/content";
 import { buildJobFitSystemPrompt } from "@/lib/prompts";
 import { sendJDNotification } from "@/lib/email";
-import { extractJSON } from "@/lib/utils";
+import { extractJSON, scoreToGrade } from "@/lib/utils";
 import { withRetry } from "@/lib/ai-retry";
 import { isValidJobFitResult } from "@/lib/ai-validate";
 import { toUserMessage } from "@/lib/ai-errors";
-import { scoreToGrade } from "@/lib/utils";
 import { getCachedAnalysisByJD, writeCachedAnalysis } from "@/lib/analysis-cache";
 import type { JobFitResult } from "@/lib/types";
 

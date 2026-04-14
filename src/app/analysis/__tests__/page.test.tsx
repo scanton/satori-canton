@@ -1,6 +1,12 @@
 import { describe, it, expect, vi } from "vitest";
 import { render, screen } from "@testing-library/react";
 
+// React.cache() is a Server Components API not available in jsdom — stub it out
+vi.mock("react", async (importOriginal) => {
+  const actual = await importOriginal<typeof import("react")>();
+  return { ...actual, cache: <T extends (...args: unknown[]) => unknown>(fn: T): T => fn };
+});
+
 vi.mock("@/lib/analysis-cache", () => ({
   getCachedAnalysisById: vi.fn(),
 }));

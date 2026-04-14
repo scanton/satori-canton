@@ -1,6 +1,11 @@
+import { cache } from "react";
 import type { Metadata } from "next";
 import Link from "next/link";
 import { getCachedAnalysisById } from "@/lib/analysis-cache";
+
+// Deduplicate KV reads within a single render — generateMetadata and AnalysisPage
+// both need the same record. Without cache(), that's 2 round-trips per page load.
+const getCachedAnalysis = cache(getCachedAnalysisById);
 import { loadStoryIndex } from "@/lib/content";
 import { ScoreGauge } from "@/components/job-fit/ScoreGauge";
 import { StrengthsList } from "@/components/job-fit/StrengthsList";
@@ -21,7 +26,7 @@ interface Props {
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
-  const cached = isValidId(params.id) ? await getCachedAnalysisById(params.id) : null;
+  const cached = isValidId(params.id) ? await getCachedAnalysis(params.id) : null;
   if (!cached) return {};
   const desc = `${cached.roleHint ? `${cached.roleHint} · ` : ""}${cached.result.headline}`;
   return {
@@ -35,7 +40,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 }
 
 export default async function AnalysisPage({ params }: Props) {
-  const cached = isValidId(params.id) ? await getCachedAnalysisById(params.id) : null;
+  const cached = isValidId(params.id) ? await getCachedAnalysis(params.id) : null;
 
   if (!cached) {
     return (

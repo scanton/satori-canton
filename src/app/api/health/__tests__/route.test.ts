@@ -33,7 +33,7 @@ describe("GET /api/health", () => {
     vi.mocked(generateText).mockRejectedValue(new Error("503 overload"));
     const { GET } = await import("@/app/api/health/route");
     const res = await GET();
-    expect(res.status).toBe(200); // always 200
+    expect(res.status).toBe(503);
     const data = await res.json();
     expect(data.status).toBe("degraded");
     expect(data.error).toBeTruthy();

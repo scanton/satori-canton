@@ -51,6 +51,6 @@ export async function GET() {
       error: isAuth ? "Auth error — check OPENROUTER_API_KEY" : "Model probe failed",
     };
     lastProbe = { ts: Date.now(), result };
-    return Response.json(result);
+    return Response.json(result, { status: 503 });
   }
 }
