@@ -3,6 +3,8 @@ import { getAIModel } from "@/lib/ai-client";
 import { buildProfileContext } from "@/lib/content";
 import { buildInterviewSystemPrompt } from "@/lib/prompts";
 import { sendLeadNotification } from "@/lib/email";
+import { withRetry } from "@/lib/ai-retry";
+import { toUserMessage } from "@/lib/ai-errors";
 import type { JobFitResult, LeadInfo } from "@/lib/types";
 
 export const runtime = "nodejs";
@@ -26,10 +28,30 @@ export async function POST(request: Request) {
     };
 
     if (!messages || !jobDescription || !jobFitResult || !leadInfo) {
-      return Response.json({ error: "Missing required fields" }, { status: 400 });
+      return Response.json(
+        { error: "Missing required fields" },
+        { status: 400 }
+      );
     }
 
-    // Send lead notification email on first message only
+    // Guard against context-stuffing: cap messages array and per-message length
+    const MAX_MESSAGES = 50;
+    const MAX_MESSAGE_CHARS = 4_000;
+    if (messages.length > MAX_MESSAGES) {
+      return Response.json(
+        { error: "Too many messages in conversation." },
+        { status: 400 }
+      );
+    }
+    const oversized = messages.some((m) => m.content.length > MAX_MESSAGE_CHARS);
+    if (oversized) {
+      return Response.json(
+        { error: "Message content too long." },
+        { status: 400 }
+      );
+    }
+
+    // Send lead notification email on first message only (fire-and-forget)
     if (isFirstMessage) {
       sendLeadNotification(leadInfo, jobDescription, jobFitResult).catch(
         (err) => console.error("[chat] Lead notification failed:", err)
@@ -44,32 +66,24 @@ export async function POST(request: Request) {
       leadInfo
     );
 
-    const result = await streamText({
-      model: getAIModel(),
-      system: systemPrompt,
-      messages,
-    });
+    // withRetry wraps streamText — retry completes before stream consumption begins.
+    // Model switching mid-stream is impractical, so retry applies to same model only.
+    const result = await withRetry(
+      () =>
+        streamText({
+          model: getAIModel(),
+          system: systemPrompt,
+          messages,
+        }),
+      { maxAttempts: 2, baseDelayMs: 300 }
+    );
 
     return result.toDataStreamResponse();
   } catch (error) {
     console.error("[chat] Error:", error);
-    return Response.json({ error: toUserMessage(error) }, { status: 500 });
+    return Response.json(
+      { error: toUserMessage(error, "The chat service") },
+      { status: 500 }
+    );
   }
-}
-
-function toUserMessage(error: unknown): string {
-  const msg = (error instanceof Error ? error.message : String(error)).toLowerCase();
-  if (msg.includes("rate limit") || msg.includes("429") || msg.includes("too many requests")) {
-    return "The AI service is rate-limited right now. Please wait a moment and try again.";
-  }
-  if (msg.includes("overload") || msg.includes("503") || msg.includes("capacity") || msg.includes("no endpoints")) {
-    return "The AI model is temporarily overloaded. Please try again in a few seconds.";
-  }
-  if (msg.includes("timeout") || msg.includes("timed out") || msg.includes("deadline")) {
-    return "The request timed out. Please try again.";
-  }
-  if (msg.includes("api key") || msg.includes("unauthorized") || msg.includes("401") || msg.includes("403")) {
-    return "The chat service is temporarily unavailable. Please try again later.";
-  }
-  return "The AI service had a hiccup. Please try again.";
 }
