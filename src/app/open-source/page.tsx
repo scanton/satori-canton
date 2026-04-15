@@ -77,9 +77,9 @@ export default async function OpenSourcePage() {
                 Key Highlights
               </p>
               <ul className="space-y-2">
-                {project.highlights.map((h, i) => (
+                {project.highlights.map((h) => (
                   <li
-                    key={i}
+                    key={h}
                     className="flex items-start gap-2 text-sm text-muted-foreground"
                   >
                     <span className="mt-1.5 h-1.5 w-1.5 rounded-full bg-primary/60 shrink-0" />
