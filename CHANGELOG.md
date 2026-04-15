@@ -2,6 +2,25 @@
 
 All notable changes to this project will be documented in this file.
 
+## [0.1.1.0] - 2026-04-15
+
+### Added
+- **Open Source page** (`/open-source`) — a dedicated section listing Phase2S with project card, npm package badge, highlights, tech badges, GitHub button, and a link to the case story.
+- **Open Source nav link** — "Open Source" appears between "Case Stories" and "Services" in the top navigation on both desktop and mobile.
+- **Open Source in AI job-fit context** — `buildProfileContext()` now loads open source projects in parallel and includes them in the AI evaluator's verified background section, so the job-fit tool can reference Phase2S as a demonstrated capability.
+
+### Changed
+- **Resume** — Phase2S moved out of the work experience timeline and into the new Open Source section. StyleGuideAI added to the resume summary as an AI consultancy.
+- **AI model routing** — `ai-client.ts` updated to `openrouter/free` dynamic router (synced from production). The free-tier router selects the best available model at request time.
+- **Job-fit timeout** — per-attempt timeout raised from 15s to 45s, `maxDuration` raised from 120s to 300s (Vercel Pro). Allows 2 models × 2 retries × 45s within budget.
+
+### Fixed
+- **Invalid HTML nesting** — GitHub button on `/open-source` now uses the shadcn/ui `asChild` pattern so `<Button>` renders as the `<a>` element directly, eliminating the invalid `<button>` inside `<a>` structure.
+- **Content load error isolation** — `loadOpenSourceProjects()` now wraps file I/O in try/catch and returns `[]` on error, preventing a missing or malformed `open-source.json` from cascading into `/api/chat` and `/api/job-fit`.
+
+### For contributors
+- 87 tests across 12 test files. New: 7 tests for `/open-source` page (including empty-list edge case), 3 tests for NavBar Open Source link.
+
 ## [0.1.0.0] - 2026-04-14
 
 ### Added
