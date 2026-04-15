@@ -45,7 +45,7 @@ export function AnalyzingState({ startTime, onCancel }: AnalyzingStateProps) {
   if (startTime && elapsed >= 15) {
     displayMessage = "Trying a backup model — almost done.";
   } else if (startTime && elapsed >= 5) {
-    displayMessage = "Free-tier model is warming up — this may take a moment.";
+    displayMessage = "Analysis in progress — this may take a moment.";
   } else {
     displayMessage = STATUS_MESSAGES[index];
   }
