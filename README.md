@@ -30,7 +30,7 @@ Open [http://localhost:3000](http://localhost:3000).
 pnpm test
 ```
 
-87 tests covering retry logic, validation, API routes, UI state, and page rendering.
+102 tests covering retry logic, validation, content pipeline, API routes, UI state, and page rendering.
 
 ## Key env vars
 

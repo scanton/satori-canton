@@ -17,9 +17,11 @@ All notable changes to this project will be documented in this file.
 ### Fixed
 - **Invalid HTML nesting** — GitHub button on `/open-source` now uses the shadcn/ui `asChild` pattern so `<Button>` renders as the `<a>` element directly, eliminating the invalid `<button>` inside `<a>` structure.
 - **Content load error isolation** — `loadOpenSourceProjects()` now wraps file I/O in try/catch and returns `[]` on error, preventing a missing or malformed `open-source.json` from cascading into `/api/chat` and `/api/job-fit`.
+- **Open source input validation** — `loadOpenSourceProjects()` now guards against non-array JSON (`Array.isArray` check returns `[]`), rejects projects with non-https `githubUrl` values to prevent XSS in rendered links, and strips `heroStoryId` values that contain path-traversal characters (only `[a-z0-9-]` accepted).
+- **AI prompt safety** — `buildProfileContext()` wraps each open source project in XML structural tags (`<open_source_project id="...">`) so content field values cannot inadvertently break the prompt's markdown section headers. A 2,000-character cap with truncation marker prevents the section from inflating the context window. The section header is omitted entirely when no projects are loaded, preventing a dangling `### Open Source Projects` heading.
 
 ### For contributors
-- 87 tests across 12 test files. New: 7 tests for `/open-source` page (including empty-list edge case), 3 tests for NavBar Open Source link.
+- 102 tests across 13 test files. New this release: 13 tests for `content.ts` (`loadOpenSourceProjects` validation chain and `buildProfileContext` prompt safety), 3 additional tests for `/open-source` page (no-npm-badge, multiple cards, empty-list regression), 1 additional test for NavBar active-link state.
 
 ## [0.1.0.0] - 2026-04-14
 
