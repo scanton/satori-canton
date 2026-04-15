@@ -87,12 +87,18 @@ export async function loadAllHeroStories(): Promise<HeroStory[]> {
 // ─── Open Source ──────────────────────────────────────────────────────────────
 
 export async function loadOpenSourceProjects(): Promise<OpenSourceProject[]> {
-  const raw = await fs.readFile(
-    path.join(contentRoot, "open-source.json"),
-    "utf-8"
-  );
-  const projects = JSON.parse(raw) as OpenSourceProject[];
-  return projects.sort((a, b) => a.order - b.order);
+  try {
+    const raw = await fs.readFile(
+      path.join(contentRoot, "open-source.json"),
+      "utf-8"
+    );
+    const projects = JSON.parse(raw) as OpenSourceProject[];
+    return projects.sort((a, b) => a.order - b.order);
+  } catch {
+    // Missing or malformed file → return empty list rather than 500ing the page
+    // and cascading into buildProfileContext() (which would also kill /api/chat and /api/job-fit).
+    return [];
+  }
 }
 
 // ─── AI Context Builder ───────────────────────────────────────────────────────
