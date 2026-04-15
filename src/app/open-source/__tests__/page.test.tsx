@@ -111,5 +111,37 @@ describe("OpenSourcePage", () => {
 
     expect(screen.queryByRole("link", { name: /View on GitHub/i })).not.toBeInTheDocument();
     expect(screen.getByText("Open Source")).toBeInTheDocument();
+    // Regression guard: no project content should leak into the empty-list view
+    expect(screen.queryByText("Phase2S")).not.toBeInTheDocument();
+    expect(screen.queryByText(/@scanton/)).not.toBeInTheDocument();
+  });
+
+  it("omits the npm badge when npmPackage is absent", async () => {
+    const noNpm = { ...mockProject, npmPackage: undefined };
+    vi.mocked(loadOpenSourceProjects).mockResolvedValue([noNpm]);
+
+    const page = await OpenSourcePage();
+    render(page as React.ReactElement);
+
+    expect(screen.queryByText("@scanton/phase2s")).not.toBeInTheDocument();
+    // Project itself still renders
+    expect(screen.getByText("Phase2S")).toBeInTheDocument();
+  });
+
+  it("renders multiple project cards when list has more than one project", async () => {
+    const secondProject: OpenSourceProject = {
+      ...mockProject,
+      id: "second-tool",
+      name: "SecondTool",
+      order: 2,
+    };
+    vi.mocked(loadOpenSourceProjects).mockResolvedValue([mockProject, secondProject]);
+
+    const page = await OpenSourcePage();
+    render(page as React.ReactElement);
+
+    expect(screen.getByText("Phase2S")).toBeInTheDocument();
+    expect(screen.getByText("SecondTool")).toBeInTheDocument();
+    expect(screen.getAllByRole("link", { name: /View on GitHub/i })).toHaveLength(2);
   });
 });
