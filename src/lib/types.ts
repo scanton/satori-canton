@@ -67,6 +67,21 @@ export interface HeroStory extends HeroStoryMeta {
   readingTimeMinutes: number;
 }
 
+// ─── Open Source Types ────────────────────────────────────────────────────────
+
+export interface OpenSourceProject {
+  id: string;
+  name: string;
+  npmPackage?: string;
+  tagline: string;
+  description: string;
+  githubUrl: string;
+  heroStoryId?: string;
+  highlights: string[];
+  technologies: string[];
+  order: number;
+}
+
 // ─── Job Fit Types ────────────────────────────────────────────────────────────
 
 export interface JobFitStrength {

@@ -11,6 +11,7 @@ import { useState } from "react";
 
 const navLinks = [
   { href: "/", label: "Case Stories" },
+  { href: "/open-source", label: "Open Source" },
   { href: "/services", label: "Services" },
   { href: "/resume", label: "Resume" },
   { href: "/job-fit", label: "Evaluate Role" },

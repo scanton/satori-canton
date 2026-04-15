@@ -9,6 +9,7 @@ Built with Next.js 14 (App Router), deployed on Vercel.
 - **Job Fit Evaluator** — paste a JD, get a scored analysis (A–F) with strengths, weaknesses, and a frank hiring recommendation
 - **Shareable analysis links** — every analysis gets a unique URL (`/analysis/[id]`), server-rendered, expires after 7 days
 - **Virtual interview** — chat session where the AI speaks as Satori, grounded in the documented background
+- **Open Source** at `/open-source` — project cards for published tools (Phase2S), with npm badge, highlights, and GitHub link
 - **Case stories** — detailed project narratives at `/story/[id]`, referenced in each analysis
 - **Resume** at `/resume`
 
@@ -29,7 +30,7 @@ Open [http://localhost:3000](http://localhost:3000).
 pnpm test
 ```
 
-71 tests covering retry logic, validation, API routes, and UI state.
+102 tests covering retry logic, validation, content pipeline, API routes, UI state, and page rendering.
 
 ## Key env vars
 
