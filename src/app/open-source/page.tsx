@@ -48,16 +48,12 @@ export default async function OpenSourcePage() {
                 )}
               </div>
               <div className="flex items-center gap-2 shrink-0">
-                <a
-                  href={project.githubUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  <Button variant="outline" size="sm" className="gap-2">
+                <Button variant="outline" size="sm" className="gap-2" asChild>
+                  <a href={project.githubUrl} target="_blank" rel="noopener noreferrer">
                     <Github className="h-4 w-4" />
                     View on GitHub
-                  </Button>
-                </a>
+                  </a>
+                </Button>
               </div>
             </div>
 
