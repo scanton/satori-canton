@@ -9,6 +9,7 @@ import type {
   SkillCategory,
   HeroStoryMeta,
   HeroStory,
+  OpenSourceProject,
 } from "@/lib/types";
 
 const contentRoot = path.join(process.cwd(), "content");
@@ -83,15 +84,27 @@ export async function loadAllHeroStories(): Promise<HeroStory[]> {
   return stories.filter((s): s is HeroStory => s !== null);
 }
 
+// ─── Open Source ──────────────────────────────────────────────────────────────
+
+export async function loadOpenSourceProjects(): Promise<OpenSourceProject[]> {
+  const raw = await fs.readFile(
+    path.join(contentRoot, "open-source.json"),
+    "utf-8"
+  );
+  const projects = JSON.parse(raw) as OpenSourceProject[];
+  return projects.sort((a, b) => a.order - b.order);
+}
+
 // ─── AI Context Builder ───────────────────────────────────────────────────────
 
 export async function buildProfileContext(): Promise<string> {
-  const [profile, experience, education, skills, stories] = await Promise.all([
+  const [profile, experience, education, skills, stories, openSource] = await Promise.all([
     loadProfile(),
     loadExperience(),
     loadEducation(),
     loadSkills(),
     loadStoryIndex(),
+    loadOpenSourceProjects(),
   ]);
 
   return `
@@ -124,6 +137,20 @@ Skills demonstrated: ${exp.skills.join(", ")}${exp.heroStoryIds?.length ? `\nSup
 
 ### Skills
 ${skills.map((cat) => `${cat.category} (${cat.level}): ${cat.skills.join(", ")}`).join("\n")}
+
+### Open Source Projects
+${openSource
+  .map(
+    (p) => `
+**${p.name}**${p.npmPackage ? ` (${p.npmPackage} on npm)` : ""}
+GitHub: ${p.githubUrl}
+${p.description}
+Key highlights:
+${p.highlights.map((h) => `  - ${h}`).join("\n")}
+Technologies: ${p.technologies.join(", ")}
+`
+  )
+  .join("\n")}
 
 ### Case Stories (Verified)
 ${stories

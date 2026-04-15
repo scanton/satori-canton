@@ -22,27 +22,6 @@
     "heroStoryIds": ["heartstamp-lora-to-board"]
   },
   {
-    "id": "phase2s",
-    "company": "Phase2S",
-    "role": "Creator & Maintainer",
-    "startDate": "2024-06",
-    "endDate": "present",
-    "location": "Batesville, AR",
-    "employmentType": "self-employed",
-    "summary": "Open-source AI agent harness published as @scanton/phase2s on npm. Lets developers use their existing ChatGPT subscription as a programmable coding assistant, plugs into Claude Code as an MCP server for cross-model adversarial review, and includes a 'dark factory' for autonomous long-horizon spec execution with parallel git worktrees.",
-    "highlights": [
-      "Built a full AI coding agent harness with 29 built-in skills spanning the complete development loop: specify, plan, implement, test, review, debug, ship, deploy",
-      "Cross-model adversarial review: Claude Code calls Phase2S as an MCP tool, which runs the plan through GPT via ChatGPT subscription and returns structured VERDICT / STRONGEST_CONCERN / OBJECTIONS / APPROVE_IF output",
-      "Dark factory (phase2s goal): reads a spec, breaks it into sub-tasks, implements each via a retry-until-green loop, runs acceptance criteria, and re-plans failed sub-tasks with failure context — autonomously, without human supervision",
-      "Parallel execution engine: 3+ independent sub-tasks run in isolated git worktrees simultaneously, cutting execution time by up to 60%, with sequential merge and conflict detection",
-      "Named agent personas (Apollo/Athena/Ares) with hard-wired tool registries enforced at the capability level — not just system prompts — so a read-only Q&A agent literally cannot write files",
-      "Works on your existing ChatGPT Plus/Pro subscription via Codex CLI browser auth — no API key, no per-token billing; also supports Anthropic, OpenRouter, Ollama, Gemini, and MiniMax",
-      "1,191 tests covering tools, agent integration, goal executor, parallel execution, worktree lifecycle, session DAG, lock correctness, spec linting, and secrets scanning"
-    ],
-    "skills": ["AI Agent Design", "Autonomous Execution", "MCP Integration", "TypeScript", "Node.js", "Open Source", "Adversarial AI Review", "Parallel Git Worktrees", "Session Architecture"],
-    "heroStoryIds": ["phase2s"]
-  },
-  {
     "id": "styleguideai",
     "company": "StyleGuideAI",
     "role": "Founder & AI Consultant",

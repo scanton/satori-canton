@@ -1,0 +1,22 @@
+[
+  {
+    "id": "phase2s",
+    "name": "Phase2S",
+    "npmPackage": "@scanton/phase2s",
+    "tagline": "AI agent harness that uses your ChatGPT subscription to challenge Claude — and autonomously executes long-horizon specs while you sleep.",
+    "description": "Open-source AI coding assistant published as @scanton/phase2s on npm. Phase2S lets developers use their existing ChatGPT Plus or Pro subscription as a programmable coding assistant in the terminal — no API key, no per-token billing. It plugs into Claude Code as an MCP server for cross-model adversarial review, and includes a 'dark factory' for autonomous long-horizon spec execution with parallel git worktrees.",
+    "githubUrl": "https://github.com/scanton/phase-2-s",
+    "heroStoryId": "phase2s",
+    "highlights": [
+      "29 built-in skills spanning the complete development loop: specify, plan, implement, test, review, debug, ship, deploy",
+      "Cross-model adversarial review: Claude Code calls Phase2S as an MCP tool, which runs the plan through GPT via ChatGPT subscription and returns structured VERDICT / STRONGEST_CONCERN / OBJECTIONS / APPROVE_IF output",
+      "Dark factory (phase2s goal): reads a spec, breaks it into sub-tasks, implements each via a retry-until-green loop, runs acceptance criteria, and re-plans failed sub-tasks with failure context — autonomously, without human supervision",
+      "Parallel execution engine: 3+ independent sub-tasks run in isolated git worktrees simultaneously, cutting execution time by up to 60%",
+      "Named agent personas (Apollo/Athena/Ares) with hard-wired tool registries enforced at the capability level — not just system prompts — so a read-only Q&A agent literally cannot write files",
+      "Works on your existing ChatGPT Plus/Pro subscription via Codex CLI browser auth — also supports Anthropic, OpenRouter, Ollama, Gemini, and MiniMax",
+      "1,191 tests covering tools, agent integration, goal executor, parallel execution, worktree lifecycle, session DAG, lock correctness, spec linting, and secrets scanning"
+    ],
+    "technologies": ["TypeScript", "Node.js", "MCP Integration", "AI Agent Design", "Autonomous Execution", "Parallel Git Worktrees"],
+    "order": 1
+  }
+]
