@@ -32,13 +32,13 @@ describe("AnalyzingState", () => {
     act(() => {
       vi.advanceTimersByTime(1800);
     });
-    // Should still show a normal message (not the "warming up" message)
+    // Should still show a normal message (not the "in progress" time-based message)
     expect(
-      screen.queryByText(/warming up/)
+      screen.queryByText(/in progress/)
     ).not.toBeInTheDocument();
   });
 
-  it("shows 'warming up' message after 5s when startTime provided", async () => {
+  it("shows 'in progress' message after 5s when startTime provided", async () => {
     const startTime = Date.now();
     render(<AnalyzingState startTime={startTime} />);
 
@@ -47,7 +47,7 @@ describe("AnalyzingState", () => {
     });
 
     expect(
-      screen.getByText("Free-tier model is warming up — this may take a moment.")
+      screen.getByText("Analysis in progress — this may take a moment.")
     ).toBeInTheDocument();
   });
 
