@@ -64,6 +64,7 @@ export async function POST(request: Request) {
             generateText({
               model: getOpenRouterModel(modelId),
               abortSignal: AbortSignal.timeout(15000),
+              maxRetries: 0, // disable AI SDK internal retries; withRetry() controls all retry logic
               system: systemPrompt,
               prompt: `Please analyze the fit for the following job description:\n\n${jobDescription}`,
             }),
