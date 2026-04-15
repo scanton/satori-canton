@@ -102,4 +102,14 @@ describe("OpenSourcePage", () => {
     expect(screen.getByText("29 built-in skills")).toBeInTheDocument();
     expect(screen.getByText("Cross-model adversarial review")).toBeInTheDocument();
   });
+
+  it("renders no project cards when the list is empty", async () => {
+    vi.mocked(loadOpenSourceProjects).mockResolvedValue([]);
+
+    const page = await OpenSourcePage();
+    render(page as React.ReactElement);
+
+    expect(screen.queryByRole("link", { name: /View on GitHub/i })).not.toBeInTheDocument();
+    expect(screen.getByText("Open Source")).toBeInTheDocument();
+  });
 });
