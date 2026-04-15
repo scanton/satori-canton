@@ -58,12 +58,13 @@ export async function POST(request: Request) {
     for (const modelId of MODEL_FALLBACK_LIST) {
       console.log(`[job-fit] Cache miss, trying model: ${modelId}`);
       try {
-        // AbortSignal.timeout inside closure = fresh 15s per attempt
+        // AbortSignal.timeout inside closure = fresh 25s per attempt
+        // 2 models × 2 attempts × 25s = 100s worst case, within maxDuration: 120s
         const { text } = await withRetry(
           () =>
             generateText({
               model: getOpenRouterModel(modelId),
-              abortSignal: AbortSignal.timeout(15000),
+              abortSignal: AbortSignal.timeout(25000),
               maxRetries: 0, // disable AI SDK internal retries; withRetry() controls all retry logic
               system: systemPrompt,
               prompt: `Please analyze the fit for the following job description:\n\n${jobDescription}`,
