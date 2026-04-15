@@ -3,14 +3,12 @@ import type { LanguageModel } from "ai";
 
 // Ordered fallback list. Primary first.
 // OPENROUTER_MODEL env var overrides primary (useful for testing specific models).
-// Models chosen for reliable free-tier availability on OpenRouter.
-// Avoided: meta-llama/llama-3.1-8b-instruct:free (frequent "no endpoints"),
-//          google/gemma-3-12b-it:free (quickly rate-limited by Google AI Studio).
+// openrouter/free is OpenRouter's dynamic free-tier router — it selects the best
+// available free model at request time. Repeating it as a fallback is intentional:
+// a second call may route to a different underlying model if the first choice fails.
 export const MODEL_FALLBACK_LIST: string[] = [
-  process.env.OPENROUTER_MODEL ?? "openrouter/auto",
-  "mistralai/mistral-7b-instruct:free",
-  "qwen/qwen-2.5-7b-instruct:free",
-  "microsoft/phi-3-mini-128k-instruct:free",
+  process.env.OPENROUTER_MODEL ?? "openrouter/free",
+  "openrouter/free", // retry dynamic router — may select a different underlying model
 ];
 
 function createOpenRouterProvider() {
